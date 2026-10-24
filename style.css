@@ -1,21 +1,3 @@
-/* ---------- base ---------- */
-* {
-    box-sizing: border-box;
-}
-
-html,
-body {
-    margin: 0;
-    height: 100%;
-    overflow: hidden;
-}
-
-body {
-    font-family: "Fredoka", sans-serif;
-    color: #1d4a2c;
-    background: #eadcb9;
-}
-
 /* ---------- the beige parchment scene ---------- */
 .scene {
     position: fixed;
