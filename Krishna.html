@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOML</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="intro">
+        <p id="say-line"></p>
+        <p class="hint">tap the words ♥</p>
+    </main>
+
+    <script>
+        // Split the message into letters, so each letter can pop in on its own
+        const line = document.getElementById("say-line");
+        const message = "Happy Birthday Samridhi My Loveeeeeeeeeeeeeeeeeee";
+        line.textContent = "";
+        let count = 0;
+        message.split(" ").forEach((word, wi, words) => {
+            const wordSpan = document.createElement("span");
+            wordSpan.className = "word";
+            for (const ch of word) {
+                const letter = document.createElement("span");
+                letter.className = "letter";
+                letter.style.setProperty("--i", count++);
+                letter.textContent = ch;
+                wordSpan.appendChild(letter);
+            }
+            line.appendChild(wordSpan);
+            if (wi < words.length - 1) line.appendChild(document.createTextNode(" "));
+        });
+        line.setAttribute("aria-label", message);
+
+        // Floating hearts in the background
+        for (let i = 0; i < 18; i++) {
+            const heart = document.createElement("span");
+            heart.className = "floating-heart";
+            heart.textContent = "♥";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = 16 + Math.random() * 30 + "px";
+            heart.style.animationDuration = 8 + Math.random() * 10 + "s";
+            heart.style.animationDelay = -Math.random() * 15 + "s";
+            document.body.appendChild(heart);
+        }
+    </script>
+    <script src="heart.js"></script>
+</body>
+</html>
