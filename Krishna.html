@@ -3,50 +3,254 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOML</title>
+    <title>Jai Shree Radhekrishna</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <main class="intro">
-        <p id="say-line"></p>
-        <p class="hint">tap the words ♥</p>
-    </main>
+    <!-- shared gradients for the flame and the lotus -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <radialGradient id="flameGrad" cx="50%" cy="70%" r="60%">
+                <stop offset="0" stop-color="#fff6c2"/>
+                <stop offset="0.45" stop-color="#ffb13b"/>
+                <stop offset="1" stop-color="#e0561a" stop-opacity="0.9"/>
+            </radialGradient>
+            <linearGradient id="lotusGrad" x1="0" y1="1" x2="0" y2="0">
+                <stop offset="0" stop-color="#e88aa3"/>
+                <stop offset="1" stop-color="#fbe3e8"/>
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <div class="scene">
+        <div class="halo"></div>
+
+        <!-- a faint mandala behind the name -->
+        <svg class="mandala" viewBox="0 0 400 400" aria-hidden="true">
+            <defs>
+                <ellipse id="petalOuter" cx="200" cy="70" rx="14" ry="42"/>
+                <ellipse id="petalInner" cx="200" cy="150" rx="8" ry="28"/>
+            </defs>
+            <g fill="none" stroke="#a87a2e" stroke-width="1.2">
+                <circle cx="200" cy="200" r="190"/>
+                <circle cx="200" cy="200" r="176"/>
+                <circle cx="200" cy="200" r="120"/>
+                <circle cx="200" cy="200" r="60"/>
+                <use href="#petalOuter" transform="rotate(0 200 200)"/>
+                <use href="#petalOuter" transform="rotate(22.5 200 200)"/>
+                <use href="#petalOuter" transform="rotate(45 200 200)"/>
+                <use href="#petalOuter" transform="rotate(67.5 200 200)"/>
+                <use href="#petalOuter" transform="rotate(90 200 200)"/>
+                <use href="#petalOuter" transform="rotate(112.5 200 200)"/>
+                <use href="#petalOuter" transform="rotate(135 200 200)"/>
+                <use href="#petalOuter" transform="rotate(157.5 200 200)"/>
+                <use href="#petalOuter" transform="rotate(180 200 200)"/>
+                <use href="#petalOuter" transform="rotate(202.5 200 200)"/>
+                <use href="#petalOuter" transform="rotate(225 200 200)"/>
+                <use href="#petalOuter" transform="rotate(247.5 200 200)"/>
+                <use href="#petalOuter" transform="rotate(270 200 200)"/>
+                <use href="#petalOuter" transform="rotate(292.5 200 200)"/>
+                <use href="#petalOuter" transform="rotate(315 200 200)"/>
+                <use href="#petalOuter" transform="rotate(337.5 200 200)"/>
+                <use href="#petalInner" transform="rotate(11.25 200 200)"/>
+                <use href="#petalInner" transform="rotate(33.75 200 200)"/>
+                <use href="#petalInner" transform="rotate(56.25 200 200)"/>
+                <use href="#petalInner" transform="rotate(78.75 200 200)"/>
+                <use href="#petalInner" transform="rotate(101.25 200 200)"/>
+                <use href="#petalInner" transform="rotate(123.75 200 200)"/>
+                <use href="#petalInner" transform="rotate(146.25 200 200)"/>
+                <use href="#petalInner" transform="rotate(168.75 200 200)"/>
+                <use href="#petalInner" transform="rotate(191.25 200 200)"/>
+                <use href="#petalInner" transform="rotate(213.75 200 200)"/>
+                <use href="#petalInner" transform="rotate(236.25 200 200)"/>
+                <use href="#petalInner" transform="rotate(258.75 200 200)"/>
+                <use href="#petalInner" transform="rotate(281.25 200 200)"/>
+                <use href="#petalInner" transform="rotate(303.75 200 200)"/>
+                <use href="#petalInner" transform="rotate(326.25 200 200)"/>
+                <use href="#petalInner" transform="rotate(348.75 200 200)"/>
+            </g>
+        </svg>
+
+        <div class="frame"></div>
+        <div class="winds" id="winds"></div>
+        <div class="petals" id="petals"></div>
+
+        <div class="diya diya-left" aria-hidden="true">
+            <div class="diya-glow"></div>
+            <svg viewBox="0 0 80 90" class="diya-svg">
+                <path class="flame" d="M40 4 C50 22 54 32 40 48 C26 32 30 22 40 4 Z" fill="url(#flameGrad)"/>
+                <path d="M8 50 Q40 84 72 50 Z" fill="#8a4d22"/>
+                <ellipse cx="40" cy="50" rx="32" ry="4.5" fill="#a8652e"/>
+            </svg>
+        </div>
+        <div class="diya diya-right" aria-hidden="true">
+            <div class="diya-glow"></div>
+            <svg viewBox="0 0 80 90" class="diya-svg">
+                <path class="flame" d="M40 4 C50 22 54 32 40 48 C26 32 30 22 40 4 Z" fill="url(#flameGrad)"/>
+                <path d="M8 50 Q40 84 72 50 Z" fill="#8a4d22"/>
+                <ellipse cx="40" cy="50" rx="32" ry="4.5" fill="#a8652e"/>
+            </svg>
+        </div>
+
+        <div class="lotus" id="lotus" aria-hidden="true">
+            <svg viewBox="0 0 200 150" class="lotus-svg">
+                <path class="pt" style="--a:-60deg; --d:0s" d="M100 130 C78 112 74 70 100 22 C126 70 122 112 100 130 Z" fill="url(#lotusGrad)"/>
+                <path class="pt" style="--a:-30deg; --d:0.1s" d="M100 130 C78 112 74 70 100 22 C126 70 122 112 100 130 Z" fill="url(#lotusGrad)"/>
+                <path class="pt" style="--a:0deg; --d:0.2s" d="M100 130 C78 112 74 70 100 22 C126 70 122 112 100 130 Z" fill="url(#lotusGrad)"/>
+                <path class="pt" style="--a:30deg; --d:0.1s" d="M100 130 C78 112 74 70 100 22 C126 70 122 112 100 130 Z" fill="url(#lotusGrad)"/>
+                <path class="pt" style="--a:60deg; --d:0s" d="M100 130 C78 112 74 70 100 22 C126 70 122 112 100 130 Z" fill="url(#lotusGrad)"/>
+                <path class="pt pt-in" style="--a:-36deg; --d:0.7s" d="M100 130 C86 118 84 92 100 60 C116 92 114 118 100 130 Z" fill="#f9d3dc"/>
+                <path class="pt pt-in" style="--a:-12deg; --d:0.8s" d="M100 130 C86 118 84 92 100 60 C116 92 114 118 100 130 Z" fill="#f9d3dc"/>
+                <path class="pt pt-in" style="--a:12deg; --d:0.8s" d="M100 130 C86 118 84 92 100 60 C116 92 114 118 100 130 Z" fill="#f9d3dc"/>
+                <path class="pt pt-in" style="--a:36deg; --d:0.7s" d="M100 130 C86 118 84 92 100 60 C116 92 114 118 100 130 Z" fill="#f9d3dc"/>
+                <circle class="seed" cx="100" cy="126" r="7" fill="#d8b57c"/>
+            </svg>
+        </div>
+
+        <main class="intro">
+            <div class="stage" id="stage">
+                <p id="say-line"></p>
+            </div>
+        </main>
+
+        <!-- the peacock feather covers the whole screen, then flies away backward -->
+        <div class="cover" id="cover">
+            <svg class="cover-feather" id="coverFeather" viewBox="0 0 400 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+        </div>
+    </div>
 
     <script>
-        // Split the message into letters, so each letter can pop in on its own
+        // The peacock feather drawn in code: green barbs on both sides of the spine, and the gold eye
+        const NS = "http://www.w3.org/2000/svg";
+        const make = (tag, attrs, parent) => {
+            const node = document.createElementNS(NS, tag);
+            for (const k in attrs) node.setAttribute(k, attrs[k]);
+            if (parent) parent.appendChild(node);
+            return node;
+        };
+
+        function buildFeather(svg) {
+            const defs = make("defs", {}, svg);
+            const gold = make("linearGradient", { id: "eyeGold", x1: "0", y1: "0", x2: "1", y2: "1" }, defs);
+            make("stop", { offset: "0", "stop-color": "#fbe7a1" }, gold);
+            make("stop", { offset: "0.6", "stop-color": "#c9923a" }, gold);
+            make("stop", { offset: "1", "stop-color": "#6b4a1a" }, gold);
+
+            // the spine, from the bottom left up to the eye
+            const P0 = [30, 585], P1 = [170, 340], P2 = [272, 52];
+            const at = (s) => {
+                const a = (1 - s) * (1 - s), b = 2 * (1 - s) * s, c = s * s;
+                return [a * P0[0] + b * P1[0] + c * P2[0], a * P0[1] + b * P1[1] + c * P2[1]];
+            };
+            const dir = (s) => {
+                const dx = 2 * (1 - s) * (P1[0] - P0[0]) + 2 * s * (P2[0] - P1[0]);
+                const dy = 2 * (1 - s) * (P1[1] - P0[1]) + 2 * s * (P2[1] - P1[1]);
+                const L = Math.hypot(dx, dy);
+                return [dx / L, dy / L];
+            };
+            make("path", { d: `M${P0[0]} ${P0[1]} Q${P1[0]} ${P1[1]} ${P2[0]} ${P2[1]}`, fill: "none", stroke: "#c9a24a", "stroke-width": 3, "stroke-linecap": "round" }, svg);
+
+            // the barbs on both sides, in peacock greens
+            const greens = ["#0d6b5c", "#14806d", "#1fa58a", "#0a4a46", "#5fd0a6", "#2c9c8e", "#0f5f63", "#3ec7b0"];
+            const BARBS = 150;
+            for (let i = 0; i < BARBS; i++) {
+                const s = 0.05 + (i / (BARBS - 1)) * 0.9;
+                const [x, y] = at(s);
+                const [tx, ty] = dir(s);
+                const nx = -ty, ny = tx;
+                const L = 70 + 120 * Math.sin(Math.PI * s) + Math.random() * 30;
+                for (const side of [-1, 1]) {
+                    const ex = x + side * nx * L + tx * L * 0.6;
+                    const ey = y + side * ny * L + ty * L * 0.6;
+                    const cx = x + side * nx * L * 0.45 + tx * L * 0.2;
+                    const cy = y + side * ny * L * 0.45 + ty * L * 0.2;
+                    make("path", {
+                        d: `M${x.toFixed(1)} ${y.toFixed(1)} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`,
+                        fill: "none",
+                        stroke: greens[Math.floor(Math.random() * greens.length)],
+                        "stroke-width": (2.6 - 1.2 * s).toFixed(2),
+                        "stroke-linecap": "round",
+                        opacity: 0.92
+                    }, svg);
+                }
+            }
+
+            // the eye: gold ring, teal ring, navy pupil, and a small highlight
+            const eye = make("g", { transform: "rotate(-18 246 118)" }, svg);
+            make("ellipse", { cx: 246, cy: 118, rx: 78, ry: 100, fill: "url(#eyeGold)", stroke: "#6b4a1a", "stroke-width": 3 }, eye);
+            make("ellipse", { cx: 246, cy: 120, rx: 52, ry: 68, fill: "#1fa7b8" }, eye);
+            make("ellipse", { cx: 252, cy: 122, rx: 30, ry: 40, fill: "#17215c" }, eye);
+            make("ellipse", { cx: 238, cy: 104, rx: 7, ry: 5, fill: "#ffffff", opacity: 0.55 }, eye);
+        }
+        buildFeather(document.getElementById("coverFeather"));
+
+        // The meadow of petals and wind streaks, in warm beige-friendly colours
+        const COLORS = ["#c9691a", "#b8500f", "#c94f6d", "#d9a441", "#e8a03a"];
+        const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+        const petalsBox = document.getElementById("petals");
+        for (let i = 0; i < 18; i++) {
+            const p = document.createElement("span");
+            p.className = "petal";
+            const size = 12 + Math.random() * 14;
+            p.style.width = size + "px";
+            p.style.height = size * 1.3 + "px";
+            p.style.left = Math.random() * 100 + "vw";
+            p.style.background = `linear-gradient(135deg, ${pick(COLORS)}, rgba(255, 248, 230, 0.35))`;
+            p.style.setProperty("--dx", (Math.random() * 16 - 8) + "vw");
+            p.style.animationDuration = 10 + Math.random() * 10 + "s";
+            p.style.animationDelay = -Math.random() * 20 + "s";
+            petalsBox.appendChild(p);
+        }
+
+        const windBox = document.getElementById("winds");
+        for (let i = 0; i < 14; i++) {
+            const w = document.createElement("span");
+            w.className = "wind";
+            w.style.top = 8 + Math.random() * 70 + "vh";
+            w.style.width = 120 + Math.random() * 220 + "px";
+            w.style.animationDuration = 3 + Math.random() * 4 + "s";
+            w.style.animationDelay = -Math.random() * 7 + "s";
+            windBox.appendChild(w);
+        }
+
+        // The name on three left-aligned lines, one letter per span so each can turn into view
         const line = document.getElementById("say-line");
-        const message = "Happy Birthday Samridhi My Loveeeeeeeeeeeeeeeeeee";
+        const message = "Jai Shree Radhekrishna";
         line.textContent = "";
-        let count = 0;
-        message.split(" ").forEach((word, wi, words) => {
-            const wordSpan = document.createElement("span");
-            wordSpan.className = "word";
+        const letters = [];
+        message.split(" ").forEach((word) => {
+            const lineSpan = document.createElement("span");
+            lineSpan.className = "line";
             for (const ch of word) {
                 const letter = document.createElement("span");
                 letter.className = "letter";
-                letter.style.setProperty("--i", count++);
                 letter.textContent = ch;
-                wordSpan.appendChild(letter);
+                lineSpan.appendChild(letter);
+                letters.push(letter);
             }
-            line.appendChild(wordSpan);
-            if (wi < words.length - 1) line.appendChild(document.createTextNode(" "));
+            line.appendChild(lineSpan);
         });
         line.setAttribute("aria-label", message);
 
-        // Floating hearts in the background
-        for (let i = 0; i < 18; i++) {
-            const heart = document.createElement("span");
-            heart.className = "floating-heart";
-            heart.textContent = "♥";
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.fontSize = 16 + Math.random() * 30 + "px";
-            heart.style.animationDuration = 8 + Math.random() * 10 + "s";
-            heart.style.animationDelay = -Math.random() * 15 + "s";
-            document.body.appendChild(heart);
+        // the sequence: the feather covers everything, flies away backward, and the letters turn into view
+        function startSequence() {
+            const cover = document.getElementById("cover");
+            const lotus = document.getElementById("lotus");
+            setTimeout(() => cover.classList.add("fly"), 1800);       // the feather flies away backward in 3D
+            setTimeout(() => {                                        // the letters turn into view as it recedes
+                letters.forEach((letter, i) => {
+                    letter.style.animationDelay = (i * 70) + "ms";
+                    letter.classList.add("on");
+                });
+            }, 2600);
+            setTimeout(() => cover.classList.add("gone"), 3900);      // the feather is out of the way
+            setTimeout(() => lotus.classList.add("open"), 4600);      // a lotus opens below the name
         }
+        (document.fonts ? document.fonts.ready : Promise.resolve()).then(startSequence);
     </script>
     <script src="heart.js"></script>
 </body>
