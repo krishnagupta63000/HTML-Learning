@@ -1,0 +1,356 @@
+/* ---------- base ---------- */
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: "Fredoka", sans-serif;
+    color: #1d4a2c;
+    background: #eadcb9;
+}
+
+/* ---------- the beige parchment scene ---------- */
+.scene {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    perspective: 1400px;
+    background-color: #eadcb9;
+    background-image:
+        radial-gradient(ellipse at 50% 42%, rgba(255, 248, 225, 0.9) 0%, rgba(255, 248, 225, 0) 62%),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='table' tableValues='0 0.2'/></feComponentTransfer></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.scene::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(110, 80, 40, 0.38) 100%);
+}
+
+/* a warm light behind the name */
+.halo {
+    position: absolute;
+    left: 40%;
+    top: 46%;
+    width: 80vmin;
+    height: 80vmin;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255, 246, 215, 0.6) 0%, rgba(255, 246, 215, 0) 70%);
+    animation: breathe 7s ease-in-out infinite;
+}
+
+@keyframes breathe {
+    0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(0.96); }
+    50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.04); }
+}
+
+/* the mandala turns very slowly */
+.mandala {
+    position: absolute;
+    left: 40%;
+    top: 46%;
+    width: 100vmin;
+    height: 100vmin;
+    transform: translate(-50%, -50%);
+    opacity: 0.4;
+    animation: spinMandala 240s linear infinite;
+}
+
+@keyframes spinMandala {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* a fine double border */
+.frame {
+    position: absolute;
+    inset: 2.5vh 2.5vw;
+    border: 1px solid rgba(120, 88, 40, 0.55);
+    box-shadow:
+        inset 0 0 0 5px rgba(234, 220, 185, 0.7),
+        inset 0 0 0 6px rgba(120, 88, 40, 0.35);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ---------- wind and petals ---------- */
+.winds,
+.petals {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.winds {
+    z-index: 1;
+}
+
+.petals {
+    z-index: 2;
+}
+
+.wind {
+    position: absolute;
+    left: 0;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, rgba(120, 92, 46, 0.5), transparent);
+    opacity: 0;
+    animation: gust linear infinite;
+}
+
+@keyframes gust {
+    0%   { transform: translateX(-35vw); opacity: 0; }
+    12%  { opacity: 0.9; }
+    88%  { opacity: 0.9; }
+    100% { transform: translateX(135vw); opacity: 0; }
+}
+
+.petal {
+    position: absolute;
+    top: -12vh;
+    border-radius: 0 100% 0 100%;
+    opacity: 0.9;
+    filter: drop-shadow(0 2px 3px rgba(80, 55, 20, 0.25));
+    animation: petalFall linear infinite;
+}
+
+@keyframes petalFall {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    50%  { transform: translate(var(--dx), 56vh) rotate(200deg); }
+    100% { transform: translate(calc(var(--dx) * -0.5), 120vh) rotate(400deg); }
+}
+
+/* ---------- diyas (oil lamps) ---------- */
+.diya {
+    position: absolute;
+    bottom: 5vh;
+    width: 84px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.diya-left {
+    left: 5vw;
+}
+
+.diya-right {
+    right: 5vw;
+}
+
+.diya-svg {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.diya-glow {
+    position: absolute;
+    left: 50%;
+    top: 30px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255, 190, 90, 0.4), rgba(255, 190, 90, 0) 65%);
+    animation: flicker 2.2s ease-in-out infinite;
+}
+
+.flame {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: flame 1.6s ease-in-out infinite;
+}
+
+@keyframes flame {
+    0%, 100% { transform: scale(1, 1) rotate(-2deg); }
+    50%      { transform: scale(0.94, 1.08) rotate(2deg); }
+}
+
+@keyframes flicker {
+    0%, 100% { opacity: 0.75; transform: translate(-50%, -50%) scale(1); }
+    50%      { opacity: 1;    transform: translate(-50%, -50%) scale(1.06); }
+}
+
+/* ---------- the lotus that opens below the name ---------- */
+.lotus {
+    position: absolute;
+    left: 50%;
+    bottom: 2vh;
+    width: min(260px, 34vw);
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.lotus::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    width: 150%;
+    height: 150%;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0.6);
+    background: radial-gradient(circle, rgba(255, 220, 160, 0.45), transparent 65%);
+    opacity: 0;
+    transition: opacity 2s ease, transform 2s ease;
+}
+
+.lotus.open::before {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.lotus-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 4px 6px rgba(60, 40, 10, 0.25));
+}
+
+.lotus-svg .pt {
+    transform-box: view-box;
+    transform-origin: 100px 130px;
+    transform: rotate(var(--a)) scale(0);
+}
+
+.lotus.open .pt {
+    animation: unfold 2.4s cubic-bezier(0.2, 0.9, 0.3, 1) var(--d) both;
+}
+
+@keyframes unfold {
+    from { transform: rotate(calc(var(--a) - 50deg)) scale(0); }
+    to   { transform: rotate(var(--a)) scale(1); }
+}
+
+/* ---------- the name, on three left-aligned lines ---------- */
+.intro {
+    position: relative;
+    z-index: 3;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 4vh 7vw;
+    text-align: left;
+}
+
+.stage {
+    position: relative;
+    display: inline-block;
+    padding: 2vh 1vw;
+    perspective: 900px;
+}
+
+/* "body #say-line" is more specific than the style heart.js adds, so these styles win */
+body #say-line {
+    margin: 0;
+    font-family: "Cinzel Decorative", serif;
+    font-weight: 900;
+    font-size: clamp(36px, 8.6vw, 190px);
+    line-height: 1.04;
+    letter-spacing: 0.01em;
+    color: #1d4a2c;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    text-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.45),
+        0 3px 4px rgba(60, 40, 10, 0.22);
+}
+
+body #say-line .line {
+    display: block;
+    white-space: nowrap;
+}
+
+body #say-line .letter {
+    display: inline-block;
+    opacity: 0;
+    transform: rotateX(-90deg);
+    transform-origin: 50% 100%;
+}
+
+/* a letter that turns into view in 3D */
+body #say-line .letter.on {
+    animation: letterFlip 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes letterFlip {
+    0% {
+        opacity: 0;
+        transform: rotateX(-90deg) translateY(-14px);
+    }
+    100% {
+        opacity: 1;
+        transform: rotateX(0deg) translateY(0);
+    }
+}
+
+/* the letters glow when you hover over them, so the name can be clicked */
+body #say-line .letter.on:hover {
+    filter: drop-shadow(0 0 6px rgba(201, 162, 74, 0.9));
+}
+
+/* ---------- the peacock feather that covers the screen ---------- */
+.cover {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 50% 45%, #23a08a 0%, #0b5a55 45%, #04302d 100%);
+    transform-style: preserve-3d;
+}
+
+.cover.fly {
+    animation: flyAway 2s cubic-bezier(0.45, 0, 0.75, 0.35) forwards;
+}
+
+.cover.gone {
+    display: none;
+}
+
+.cover-feather {
+    width: 100%;
+    height: 100%;
+    display: block;
+    transform-origin: 50% 100%;
+    animation: sway 6s ease-in-out infinite;
+}
+
+@keyframes sway {
+    0%, 100% { transform: rotate(-1.5deg); }
+    50%      { transform: rotate(1.5deg); }
+}
+
+/* the feather flies away backward into the screen, turning in 3D, and fades */
+@keyframes flyAway {
+    0% {
+        transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);
+        opacity: 1;
+    }
+    20% {
+        transform: translate3d(0, -2vh, 160px) rotateX(-6deg) rotateY(8deg) rotateZ(-2deg) scale(1.03);
+        opacity: 1;
+    }
+    100% {
+        transform: translate3d(-12vw, -28vh, -2400px) rotateX(44deg) rotateY(-36deg) rotateZ(-18deg) scale(0.4);
+        opacity: 0;
+    }
+}
