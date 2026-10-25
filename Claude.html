@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Jai Shree Radhekrishn</title>
+
+  <!-- Hides the intro-only elements until the animation starts. If JavaScript fails, the page shows in its final state. -->
+  <script>document.documentElement.classList.add('js-intro');</script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="Claude.css" />
+</head>
+<body>
+
+  <!-- Wind filter for the feather barbs: fine turbulence displaces the barbs like wind through them -->
+  <svg class="svg-defs" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="wind-ripple" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.035 0.09" numOctaves="2" seed="8" result="noise" />
+        <feDisplacementMap id="displacement" in="SourceGraphic" in2="noise" scale="0.45" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
+  <div class="viewport">
+    <main class="stage" id="stage">
+
+      <!-- Golden waves, ornaments and sparkles (positions measured from the reference) -->
+      <svg class="decor" viewBox="0 0 1920 1080" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="goldWaveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#d4af62" stop-opacity="0.28" />
+            <stop offset="50%" stop-color="#f5d78e" stop-opacity="0.18" />
+            <stop offset="100%" stop-color="#d4af62" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+
+        <!-- Flowing golden waves, bottom-left -->
+        <g stroke="url(#goldWaveGrad)" stroke-width="1" fill="none">
+          <path d="M-20 620 C 120 740, 290 710, 440 820 C 590 930, 780 760, 1060 850" />
+          <path d="M-20 634 C 125 752, 295 720, 445 830 C 595 940, 785 770, 1065 860" />
+          <path d="M-20 648 C 130 764, 300 730, 450 840 C 600 950, 790 780, 1070 870" />
+          <path d="M-20 662 C 135 776, 305 740, 455 850 C 605 960, 795 790, 1075 880" />
+          <path d="M-20 676 C 140 788, 310 750, 460 860 C 610 970, 800 800, 1080 890" />
+          <path d="M-20 690 C 145 800, 315 760, 465 870 C 615 980, 805 810, 1085 900" />
+          <path d="M-20 704 C 150 812, 320 770, 470 880 C 620 990, 810 820, 1090 910" />
+          <path d="M-20 718 C 155 824, 325 780, 475 890 C 625 1000, 815 830, 1095 920" />
+          <path d="M-20 732 C 160 836, 330 790, 480 900 C 630 1010, 820 840, 1100 930" />
+          <path d="M-20 746 C 165 848, 335 800, 485 910 C 635 1020, 825 850, 1105 940" />
+        </g>
+
+        <!-- Diamond ornament above the title -->
+        <g transform="translate(862, 268)" stroke="#d4af62" stroke-opacity="0.18" stroke-width="1" fill="none">
+          <polygon points="0,-28 28,0 0,28 -28,0" />
+          <polygon points="0,-20 20,0 0,20 -20,0" />
+        </g>
+
+        <!-- Mandala near bottom centre -->
+        <g transform="translate(1065, 855)" stroke="#d4af62" stroke-opacity="0.14" stroke-width="1" fill="none">
+          <line x1="-45" y1="-45" x2="45" y2="45" />
+          <line x1="45" y1="-45" x2="-45" y2="45" />
+          <polygon points="0,-55 55,0 0,55 -55,0" />
+          <polygon points="0,-38 38,0 0,38 -38,0" />
+          <polygon points="0,-22 22,0 0,22 -22,0" />
+        </g>
+
+        <!-- Sparkles left of the artwork (the artwork image carries its own sparkles on the right) -->
+        <g fill="#e8c878" opacity="0.85">
+          <path d="M249 332 L252 342 L262 345 L252 348 L249 358 L246 348 L236 345 L246 342 Z" />
+          <path d="M159 950 L162 960 L172 963 L162 966 L159 976 L156 966 L146 963 L156 960 Z" />
+          <path d="M148 638 L150 644 L156 646 L150 648 L148 654 L146 648 L140 646 L146 644 Z" />
+          <path d="M203 288 L205 293 L210 295 L205 297 L203 302 L201 297 L196 295 L201 293 Z" />
+          <path d="M524 218 L526 223 L531 225 L526 227 L524 232 L522 227 L517 225 L522 223 Z" />
+          <path d="M824 932 L826 937 L831 939 L826 941 L824 946 L822 941 L817 939 L822 937 Z" />
+        </g>
+
+        <!-- Silver four-pointed star, bottom right -->
+        <path d="M1840 968 C 1848 992, 1854 998, 1878 1006 C 1854 1014, 1848 1020, 1840 1044 C 1832 1020, 1826 1014, 1802 1006 C 1826 998, 1832 992, 1840 968 Z"
+              fill="#9aa5b8" opacity="0.75" />
+      </svg>
+
+      <!-- Teal cover that the feather uncovers at the start -->
+      <div class="intro-cover" id="introCover" aria-hidden="true"></div>
+
+      <!-- Navbar: emblem on the left, search / audio / profile on the right -->
+      <header class="nav" id="nav">
+        <svg class="brand" viewBox="0 0 48 48" role="img" aria-label="Emblem">
+          <defs>
+            <linearGradient id="navGold" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#fae596" />
+              <stop offset="0.5" stop-color="#d4af62" />
+              <stop offset="1" stop-color="#9e762c" />
+            </linearGradient>
+          </defs>
+          <g fill="url(#navGold)">
+            <polygon points="24,4 33,17 24,30 15,17" />
+            <path d="M12 18 C 4 24, 4 36, 10 41 C 16 35, 20 30, 22 28 Z" />
+            <path d="M36 18 C 44 24, 44 36, 38 41 C 32 35, 28 30, 26 28 Z" />
+            <polygon points="24,34 29,40 24,46 19,40" />
+          </g>
+        </svg>
+
+        <button class="icon-btn icon-search" type="button" aria-label="Search">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M16.5 16.5 L21 21" />
+          </svg>
+        </button>
+
+        <!-- Mute / unmute. Browsers only allow sound after a click, so the whoosh starts with the first click. -->
+        <button class="icon-btn icon-audio" id="audioBtn" type="button" aria-label="Mute sound" data-muted="false">
+          <svg class="i-on" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9.5 H7.5 L12.5 5.5 V18.5 L7.5 14.5 H4 Z" />
+            <path d="M16 9 C 17.5 10.3, 17.5 13.7, 16 15" />
+            <path d="M18.5 6.8 C 21.3 9.4, 21.3 14.6, 18.5 17.2" />
+          </svg>
+          <svg class="i-off" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9.5 H7.5 L12.5 5.5 V18.5 L7.5 14.5 H4 Z" />
+            <path d="M16 9.5 L21 14.5 M21 9.5 L16 14.5" />
+          </svg>
+        </button>
+
+        <button class="icon-btn icon-profile" type="button" aria-label="Profile">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8.5" r="4" />
+            <path d="M4.5 20.5 C 5.7 16.9, 8.5 15, 12 15 S 18.3 16.9, 19.5 20.5" />
+          </svg>
+        </button>
+      </header>
+
+      <!-- Title: JAI SHREE / RADHEKRISHN. The size and position are set by the script from the reference measurements. -->
+      <h1 class="title" id="title">
+        <span class="title-inner">
+          <span class="line">JAI SHREE</span>
+          <span class="line">RADHEKRISHN</span>
+        </span>
+      </h1>
+
+      <div class="underglow" id="underglow" aria-hidden="true"></div>
+
+      <h2 class="title title-shine" id="titleShine" aria-hidden="true">
+        <span class="title-inner">
+          <span class="line">JAI SHREE</span>
+          <span class="line">RADHEKRISHN</span>
+        </span>
+      </h2>
+
+      <!-- Pill buttons. Play replays the animation. The arrow is the continue link. -->
+      <div class="pills" id="pills">
+        <button class="pill pill-play" id="replayBtn" type="button" aria-label="Replay animation" title="Replay animation">
+          <svg viewBox="0 0 44 44" aria-hidden="true">
+            <path d="M12 8 L36 22 L12 36 Z" />
+          </svg>
+        </button>
+        <a class="pill pill-arrow" href="#explore" aria-label="Continue">
+          <svg viewBox="0 0 44 44" aria-hidden="true">
+            <path d="M6 22 H37" />
+            <path d="M29 14 L37 22 L29 30" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- ================================================================
+           RADHA-KRISHNA SCENE
+           ================================================================ -->
+      <div class="scene" id="scene">
+
+        <!-- =====================================================
+             ARTWORK (SWAP POINT)
+             This is Radha-Krishna and the glowing lotus, extracted from
+             your reference at its exact size and position.
+             To use your own artwork, replace Claude.png with
+             a transparent PNG or WebP of the same size (1125 x 1160 px), or
+             change the src below. Keep the same class so the reveal still works.
+             ===================================================== -->
+        <img class="art" id="art" src="Claude.png" width="1125" height="1160" alt="" />
+
+        <!-- =====================================================
+             PEACOCK FEATHER (Morpankh)
+             Nested inside the artwork's scene and placed on Krishna's crown
+             with percentages. GSAP reads this resting position when the
+             page loads and starts the feather full-screen from it.
+             ===================================================== -->
+        <div class="feather" id="feather" aria-hidden="true">
+          <div class="feather-glow" id="featherGlow"></div>
+          <svg id="featherSvg" viewBox="0 0 133 213" focusable="false"></svg>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Wind gusts and floating golden dust -->
+    <canvas id="fx" aria-hidden="true"></canvas>
+  </div>
+
+  <!-- GSAP and MotionPathPlugin via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+
+  <script>
+  (function () {
+    'use strict';
+
+    /* ---------- constants (all from measurements on the reference image) ---------- */
+    var STAGE_W = 2752;
+    var STAGE_H = 1536;
+    var CAP_H = 122;          // cap height of the title, px
+    var LINE2_W = 1206;       // width of RADHEKRISHN, px
+    var LINE_GAP = 183;       // baseline to baseline, px
+    var BASELINE_1 = 666;     // baseline of JAI SHREE, px
+    var FINAL_ROT = -14;      // feather resting tilt, degrees
+    var COVER_PAD = 1.05;     // starting scale margin so the feather covers the screen
+
+    var root = document.documentElement;
+    var $ = function (sel) { return document.querySelector(sel); };
+
+    var stage = $('#stage');
+    var nav = $('#nav');
+    var title = $('#title');
+    var titleShine = $('#titleShine');
+    var shineLines = titleShine.querySelectorAll('.line');
+    var underglow = $('#underglow');
+    var introCover = $('#introCover');
+    var pills = $('#pills');
+    var scene = $('#scene');
+    var art = $('#art');
+    var feather = $('#feather');
+    var featherSvg = $('#featherSvg');
+    var featherGlow = $('#featherGlow');
+    var displacement = $('#displacement');
+    var replayBtn = $('#replayBtn');
+    var audioBtn = $('#audioBtn');
+    var canvas = $('#fx');
+
+    var hasGSAP = typeof window.gsap !== 'undefined';
+    var reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    if (hasGSAP && typeof window.MotionPathPlugin !== 'undefined') gsap.registerPlugin(MotionPathPlugin);
+
+    /* ---------- stage fit: cover the screen, keep the reference layout ---------- */
+    function fitStage() {
+      var k = Math.max(window.innerWidth / STAGE_W, window.innerHeight / STAGE_H);
+      root.style.setProperty('--k', k.toFixed(5));
+    }
+
+    /* ---------- title: match the reference cap height, width and baseline ---------- */
+    function fitTitle() {
+      var fam = "Cinzel, 'Cormorant Garamond', Georgia, 'Times New Roman', serif";
+      var c = document.createElement('canvas').getContext('2d');
+
+      c.font = '500 200px ' + fam;
+      var capRatio = (c.measureText('H').actualBoundingBoxAscent || 140) / 200;
+      var fs = CAP_H / capRatio;
+
+      c.font = '500 ' + fs + 'px ' + fam;
+      var natural = c.measureText('RADHEKRISHN').width;
+      var sx = LINE2_W / natural;            // stretch or squeeze to the measured width
+
+      var m = c.measureText('H');
+      var asc = m.fontBoundingBoxAscent || fs * 0.9;
+      var desc = m.fontBoundingBoxDescent || fs * 0.25;
+      var halfLead = (LINE_GAP - (asc + desc)) / 2;
+      var top = BASELINE_1 - (halfLead + asc);
+
+      root.style.setProperty('--t-fs', fs.toFixed(2) + 'px');
+      root.style.setProperty('--t-sx', sx.toFixed(4));
+      root.style.setProperty('--t-lh', LINE_GAP + 'px');
+      root.style.setProperty('--t-top', top.toFixed(2) + 'px');
+    }
+
+    /* ---------- the peacock feather (SVG) ---------- */
+    function mulberry32(seed) {
+      return function () {
+        seed |= 0;
+        seed = (seed + 0x6d2b79f5) | 0;
+        var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    // point at fraction t along a polyline
+    function along(pts, t) {
+      var n = pts.length - 1;
+      var f = Math.min(0.99999, Math.max(0, t)) * n;
+      var i = Math.floor(f);
+      var u = f - i;
+      var a = pts[i], b = pts[i + 1];
+      return [a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u];
+    }
+
+    function buildFeather(svg) {
+      var NS = 'http://www.w3.org/2000/svg';
+      function el(tag, attrs, parent) {
+        var n = document.createElementNS(NS, tag);
+        for (var k in attrs) n.setAttribute(k, attrs[k]);
+        if (parent) parent.appendChild(n);
+        return n;
+      }
+      var rnd = mulberry32(20251025);
+      var defs = el('defs', {}, svg);
+
+      function lin(id, stops, x1, y1, x2, y2) {
+        var g = el('linearGradient', { id: id, x1: x1, y1: y1, x2: x2, y2: y2 }, defs);
+        stops.forEach(function (s) {
+          el('stop', { offset: s[0], 'stop-color': s[1], 'stop-opacity': s[2] === undefined ? 1 : s[2] }, g);
+        });
+      }
+      function rad(id, stops, cx, cy, r) {
+        var g = el('radialGradient', { id: id, cx: cx, cy: cy, r: r }, defs);
+        stops.forEach(function (s) {
+          el('stop', { offset: s[0], 'stop-color': s[1], 'stop-opacity': s[2] === undefined ? 1 : s[2] }, g);
+        });
+      }
+
+      lin('fGold', [[0, '#fff3c2'], [0.45, '#e6b95a'], [1, '#86551c']], 0, 0, 1, 1);
+      lin('fShaft', [[0, '#6f4a18'], [0.5, '#f2d58a'], [1, '#9b6e2a']], 0, 1, 0, 0);
+      lin('fCyan', [[0, '#8ffcf1'], [0.55, '#17e0d2'], [1, '#0b8a93']], 0, 0, 0, 1);
+      lin('fGoldStrand', [[0, '#f7e29a'], [1, '#a57531']], 0, 0, 0, 1);
+      lin('fRing', [[0, '#a9fff4'], [0.5, '#19e6d6'], [1, '#0a9db0']], 0, 0, 1, 1);
+      rad('fInner', [[0, '#8fe6d6', 0.95], [0.6, '#3c8f84', 0.9], [1, '#1c4f50', 0.95]], '50%', '45%', '60%');
+      rad('fHalo', [[0, '#5ff5e0', 0.55], [1, '#5ff5e0', 0]], '50%', '50%', '50%');
+
+      // barb outlines: the feather's teardrop, from the tip (top) round both sides to the shaft
+      var outerL = [[24, -2], [18, 26], [14, 64], [13, 104], [17, 140], [30, 172], [56, 196], [80, 207]];
+      var outerR = [[24, -2], [40, 10], [66, 32], [96, 66], [108, 104], [110, 144], [100, 178], [90, 205]];
+
+      var strands = el('g', { fill: 'none', 'stroke-linecap': 'round' }, svg);
+
+      function strand(base, tip, side, bow, stroke, width, opacity) {
+        var mx = (base[0] + tip[0]) / 2 + side * bow;
+        var my = (base[1] + tip[1]) / 2 - bow * 0.25;
+        el('path', {
+          d: 'M' + base[0].toFixed(2) + ' ' + base[1].toFixed(2) +
+             ' Q' + mx.toFixed(2) + ' ' + my.toFixed(2) +
+             ' ' + tip[0].toFixed(2) + ' ' + tip[1].toFixed(2),
+          stroke: stroke,
+          'stroke-width': width.toFixed(2),
+          opacity: opacity.toFixed(2)
+        }, strands);
+      }
+
+      // main barbs, plus a finer second layer for depth
+      [[outerL, -1], [outerR, 1]].forEach(function (pair) {
+        var pts = pair[0], side = pair[1];
+        var N = 18;
+        for (var i = 0; i < N; i++) {
+          var t = 0.04 + 0.92 * (i / (N - 1));
+          var tip = along(pts, t);
+          tip = [tip[0] + (rnd() - 0.5) * 3, tip[1] + (rnd() - 0.5) * 3];
+          var s = rnd();
+          var base = [68 + 18 * s, 168 + 38 * s];
+          var len = Math.hypot(tip[0] - base[0], tip[1] - base[1]);
+          var bow = len * (0.16 + rnd() * 0.1);
+          var gold = side === 1 && i > N - 4;
+          strand(base, tip, side, bow, gold ? 'url(#fGoldStrand)' : 'url(#fCyan)',
+                 1.0 + rnd() * 0.6, 0.85 + rnd() * 0.15);
+        }
+        for (var j = 0; j < 12; j++) {
+          var t2 = 0.08 + 0.84 * rnd();
+          var tip2 = along(pts, t2);
+          var base2 = [68 + 18 * rnd(), 172 + 34 * rnd()];
+          var len2 = Math.hypot(tip2[0] - base2[0], tip2[1] - base2[1]);
+          strand(base2, tip2, side, len2 * 0.18, 'url(#fCyan)', 0.6 + rnd() * 0.3, 0.3 + rnd() * 0.2);
+        }
+      });
+
+      // eye: teal halo, gold egg, teal-grey inner, cyan ring, dark heart centre
+      el('ellipse', { cx: 66.5, cy: 120, rx: 58, ry: 72, fill: 'url(#fHalo)' }, svg);
+      el('path', {
+        d: 'M66.5 73.5 C 92 73.5 103 100 103 122 C 103 150 88 168 66.5 168 C 45 168 30 150 30 122 C 30 100 41 73.5 66.5 73.5 Z',
+        fill: 'url(#fGold)', stroke: '#fff0b0', 'stroke-width': 0.8, 'stroke-opacity': 0.7
+      }, svg);
+      el('path', {
+        d: 'M66.5 86 C 83 86 91 107 91 122 C 91 141 80 156 66.5 156 C 53 156 42 141 42 122 C 42 107 50 86 66.5 86 Z',
+        fill: 'url(#fInner)'
+      }, svg);
+      el('ellipse', { cx: 66.5, cy: 122, rx: 21, ry: 24, fill: 'none', stroke: 'url(#fRing)', 'stroke-width': 4.2 }, svg);
+      el('ellipse', { cx: 66.5, cy: 122, rx: 21, ry: 24, fill: 'none', stroke: '#b8fff7', 'stroke-width': 0.8, opacity: 0.6 }, svg);
+      el('path', {
+        d: 'M66.5 134 C 60 128.5 54 124 54 117.5 C 54 112.5 58 109.5 62 109.5 C 64.5 109.5 66 111 66.5 113 C 67 111 68.5 109.5 71 109.5 C 75 109.5 79 112.5 79 117.5 C 79 124 73 128.5 66.5 134 Z',
+        fill: '#0a1b3a'
+      }, svg);
+      el('ellipse', { cx: 58, cy: 104, rx: 4.5, ry: 2.2, fill: '#ffffff', opacity: 0.45, transform: 'rotate(-18 58 104)' }, svg);
+
+      // golden shaft from the eye down to the crown
+      el('path', { d: 'M66 166 C 72 188 80 200 92 213', fill: 'none', stroke: 'url(#fShaft)', 'stroke-width': 2.6, 'stroke-linecap': 'round' }, svg);
+      el('path', { d: 'M66 166 C 72 188 80 200 92 213', fill: 'none', stroke: '#fff6d0', 'stroke-width': 0.6, opacity: 0.6 }, svg);
+    }
+
+    /* ---------- wind and dust canvas ---------- */
+    var ctx = canvas.getContext('2d');
+    var DPR = 1, VW = 0, VH = 0;
+    var dust = [];
+    var gusts = [];
+    var windPower = 0;
+    var spawnAcc = 0;
+    var lastT = 0;
+
+    function makeDust(anywhere) {
+      return {
+        x: Math.random() * VW,
+        y: anywhere ? Math.random() * VH : VH + 10,
+        r: 0.6 + Math.random() * 1.8,
+        vx: 4 + Math.random() * 10,
+        vy: -(4 + Math.random() * 10),
+        a: 0.25 + Math.random() * 0.6,
+        ph: Math.random() * Math.PI * 2
+      };
+    }
+
+    function spawnGust() {
+      gusts.push({
+        x: -120 - Math.random() * 200,
+        y: Math.random() * VH,
+        amp: 10 + Math.random() * 40,
+        f: 0.004 + Math.random() * 0.006,
+        ph: Math.random() * Math.PI * 2,
+        v: 900 + Math.random() * 700,
+        len: 80 + Math.random() * 180,
+        w: 0.8 + Math.random() * 1.6,
+        a: 0.35 + Math.random() * 0.5
+      });
+    }
+
+    function resizeCanvas() {
+      DPR = Math.min(window.devicePixelRatio || 1, 2);
+      VW = window.innerWidth;
+      VH = window.innerHeight;
+      canvas.width = Math.round(VW * DPR);
+      canvas.height = Math.round(VH * DPR);
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      var count = Math.min(120, Math.round((VW * VH) / 14000));
+      dust = [];
+      for (var i = 0; i < count; i++) dust.push(makeDust(true));
+    }
+
+    function frame(now) {
+      var dt = Math.min(0.05, lastT ? (now - lastT) / 1000 : 0.016);
+      lastT = now;
+      var wp = windPower;
+      ctx.clearRect(0, 0, VW, VH);
+
+      // gust streaks, sweeping left to right
+      if (wp > 0.06) {
+        spawnAcc += wp * 180 * dt;
+        while (spawnAcc >= 1) { spawnAcc -= 1; spawnGust(); }
+      } else {
+        spawnAcc = 0;
+      }
+      ctx.lineCap = 'round';
+      for (var i = gusts.length - 1; i >= 0; i--) {
+        var g = gusts[i];
+        g.x += g.v * dt * (0.6 + wp * 0.8);
+        var y = g.y + Math.sin(g.x * g.f + g.ph) * g.amp;
+        ctx.globalAlpha = g.a * Math.min(1, wp * 1.5);
+        ctx.strokeStyle = '#ffd98a';
+        ctx.lineWidth = g.w;
+        ctx.beginPath();
+        ctx.moveTo(g.x - g.len, y + 2);
+        ctx.lineTo(g.x, y);
+        ctx.stroke();
+        if (g.x - g.len > VW + 80) gusts.splice(i, 1);
+      }
+
+      // floating golden dust
+      for (var j = 0; j < dust.length; j++) {
+        var d = dust[j];
+        d.x += d.vx * dt * (1 + wp * 4);
+        d.y += d.vy * dt;
+        d.ph += dt * 1.6;
+        if (d.y < -10) { d.y = VH + 10; d.x = Math.random() * VW; }
+        if (d.x > VW + 10) d.x = -10;
+        ctx.globalAlpha = d.a * (0.55 + 0.45 * Math.sin(d.ph));
+        ctx.fillStyle = '#ffdc8f';
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(frame);
+    }
+
+    function setWind(p) {
+      windPower = p;
+      if (displacement) displacement.setAttribute('scale', (0.45 + p * 0.9).toFixed(3));
+    }
+
+    /* ---------- sound (created on the first click) ---------- */
+    var audioCtx = null;
+    var soundOn = true;
+
+    function ensureAudio() {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      if (!audioCtx) audioCtx = new AC();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      return audioCtx;
+    }
+
+    function whoosh() {
+      if (!soundOn || !audioCtx || audioCtx.state !== 'running') return;
+      var ac = audioCtx;
+      var dur = 2.6;
+      var now = ac.currentTime;
+      var buf = ac.createBuffer(1, Math.floor(ac.sampleRate * dur), ac.sampleRate);
+      var data = buf.getChannelData(0);
+      for (var i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+
+      var src = ac.createBufferSource();
+      src.buffer = buf;
+      var bp = ac.createBiquadFilter();
+      bp.type = 'bandpass';
+      bp.Q.value = 0.9;
+      bp.frequency.setValueAtTime(220, now);
+      bp.frequency.exponentialRampToValueAtTime(2400, now + dur * 0.8);
+      var gain = ac.createGain();
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.18, now + 0.9);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+      src.connect(bp);
+      bp.connect(gain);
+      gain.connect(ac.destination);
+      src.start(now);
+      src.stop(now + dur);
+    }
+
+    function toggleSound() {
+      soundOn = !soundOn;
+      if (soundOn) ensureAudio();
+      audioBtn.setAttribute('data-muted', String(!soundOn));
+      audioBtn.setAttribute('aria-label', soundOn ? 'Mute sound' : 'Unmute sound');
+    }
+
+    /* ---------- reverse anchor: where the feather rests, in stage pixels ---------- */
+    // offsetLeft / offsetTop ignore CSS transforms, so these are the true layout positions
+    function restCentre() {
+      return {
+        x: scene.offsetLeft + feather.offsetLeft + feather.offsetWidth / 2,
+        y: scene.offsetTop + feather.offsetTop + feather.offsetHeight / 2,
+        w: feather.offsetWidth,
+        h: feather.offsetHeight
+      };
+    }
+
+    /* ---------- the sequence ---------- */
+    var tl = null;
+    var idle = null;
+
+    function startIdle() {
+      idle = gsap.timeline({ repeat: -1, yoyo: true, defaults: { ease: 'sine.inOut' } });
+      idle
+        .to(feather, { rotationZ: FINAL_ROT + 2.5, y: -4, rotationY: 4, rotationX: -3, duration: 2.8 }, 0)
+        .to(featherGlow, { opacity: 0.8, scale: 1.06, duration: 2.8 }, 0);
+    }
+
+    function play() {
+      if (tl) tl.kill();
+      if (idle) idle.kill();
+      feather.classList.remove('landed');
+
+      var r = restCentre();
+      // move the feather's centre to the centre of the stage (the screen centre)
+      var dx = STAGE_W / 2 - r.x;
+      var dy = STAGE_H / 2 - r.y;
+      // scale so the barbs cover the whole stage
+      var cover = Math.max(STAGE_W / (0.8 * r.w), STAGE_H / (0.86 * r.h)) * COVER_PAD;
+
+      // cubic Bézier S-curve: from the centre, back into the scene, ending at the crown
+      var P0 = { x: dx, y: dy };
+      var P1 = { x: dx * 0.55 + 360, y: dy * 0.62 + 40 };
+      var P2 = { x: dx * 0.1 - 320, y: dy * 0.24 - 60 };
+      var P3 = { x: -14, y: -22 };
+      function bez(t) {
+        var u = 1 - t;
+        var a = u * u * u, b = 3 * u * u * t, c = 3 * u * t * t, d = t * t * t;
+        return {
+          x: a * P0.x + b * P1.x + c * P2.x + d * P3.x,
+          y: a * P0.y + b * P1.y + c * P2.y + d * P3.y
+        };
+      }
+
+      // 0.0s: the feather covers the whole stage, slightly angled, the rest hidden
+      gsap.set(feather, {
+        x: dx, y: dy, scale: cover,
+        rotationZ: -6, rotationX: 0, rotationY: 0,
+        transformOrigin: '50% 50%', opacity: 1
+      });
+      gsap.set(introCover, { opacity: 1 });
+      gsap.set([nav, pills, art], { opacity: 0 });
+      gsap.set(title, { opacity: 0 });
+      gsap.set(titleShine, { opacity: 0 });
+      gsap.set(underglow, { opacity: 0 });
+      gsap.set(featherGlow, { opacity: 0 });
+      setWind(0.02);
+
+      var wind = { p: 0.02 };
+      var path = { t: 0 };
+
+      tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+
+      // 0.5s – 3.2s: the wind gust carries the feather back
+      tl.call(whoosh, null, 0.5)
+        .to(wind, { p: 1, duration: 0.6, ease: 'power2.out', onUpdate: function () { setWind(wind.p); } }, 0.5)
+        .to(wind, { p: 0.28, duration: 1.7, ease: 'power1.inOut', onUpdate: function () { setWind(wind.p); } }, 1.1)
+        .to(wind, { p: 0, duration: 1.0, ease: 'power1.in', onUpdate: function () { setWind(wind.p); } }, 2.8);
+
+      tl.to(path, {
+        t: 1,
+        duration: 2.7,
+        ease: 'sine.inOut',
+        onUpdate: function () {
+          var p = bez(path.t);
+          var fl = 1 - path.t;   // flutter fades out as the feather reaches the crown
+          gsap.set(feather, {
+            x: p.x + Math.sin(path.t * Math.PI * 4) * 16 * fl,
+            y: p.y + Math.cos(path.t * Math.PI * 3) * 9 * fl
+          });
+        }
+      }, 0.5);
+
+      tl.to(feather, { scale: 3.4, duration: 2.7, ease: 'power2.in' }, 0.5)
+        .to(feather, { rotationY: 34, rotationX: -22, rotationZ: 10, duration: 0.9, ease: 'sine.inOut' }, 0.5)
+        .to(feather, { rotationY: -26, rotationX: 18, rotationZ: -8, duration: 0.9, ease: 'sine.inOut' }, 1.4)
+        .to(feather, { rotationY: 12, rotationX: -8, rotationZ: -12, duration: 0.8, ease: 'sine.inOut' }, 2.3);
+
+      // 1.5s – 3.0s: the feather uncovers the scene and the text and artwork appear
+      tl.to(introCover, { opacity: 0, duration: 1.4, ease: 'power1.inOut' }, 1.6)
+        .fromTo(title,
+          { opacity: 0, filter: 'blur(18px)', y: 18 },
+          { opacity: 1, filter: 'blur(0px)', y: 0, duration: 1.4, ease: 'power2.out' }, 1.5)
+        .fromTo(titleShine, { opacity: 1 }, { opacity: 0, duration: 1.6, ease: 'power1.inOut' }, 1.5)
+        .fromTo(shineLines,
+          { backgroundPosition: '100% 50%' },
+          { backgroundPosition: '0% 50%', duration: 1.6, ease: 'power2.inOut' }, 1.5)
+        .fromTo(art,
+          { opacity: 0, filter: 'blur(14px)' },
+          { opacity: 1, filter: 'blur(0px)', duration: 1.4, ease: 'power2.out' }, 1.9)
+        .fromTo(nav, { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out' }, 2.2)
+        .fromTo(underglow, { opacity: 0, scaleX: 0.4 }, { opacity: 1, scaleX: 1, duration: 1.2, ease: 'sine.out' }, 2.2)
+        .fromTo(pills, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out' }, 2.5)
+        .call(function () { root.classList.remove('js-intro'); }, null, 3.2);
+
+      // 3.2s – 4.0s: the feather lands exactly on Krishna's crown (x: 0, y: 0, scale: 1)
+      tl.to(feather, {
+        x: 0, y: 0, scale: 1,
+        rotationZ: FINAL_ROT, rotationX: 0, rotationY: 0,
+        duration: 0.8, ease: 'power3.inOut'
+      }, 3.2)
+        .to(featherGlow, { opacity: 1, duration: 0.9, ease: 'sine.out' }, 3.5)
+        .call(function () { feather.classList.add('landed'); }, null, 3.85)
+        .call(startIdle, null, 4.0);
+    }
+
+    // used when GSAP is missing or the visitor prefers reduced motion: show the finished page
+    function showFinal() {
+      root.classList.remove('js-intro');
+      feather.classList.add('landed');
+      featherGlow.style.opacity = '0.8';
+      setWind(0);
+    }
+
+    function replay() {
+      if (!hasGSAP || reduceMotion) return;
+      ensureAudio();
+      play();
+    }
+
+    /* ---------- start ---------- */
+    function init() {
+      fitStage();
+      buildFeather(featherSvg);
+      resizeCanvas();
+      requestAnimationFrame(frame);
+
+      window.addEventListener('resize', function () {
+        fitStage();
+        resizeCanvas();
+      });
+
+      audioBtn.addEventListener('click', toggleSound);
+      replayBtn.addEventListener('click', replay);
+
+      var fontsReady = (document.fonts && document.fonts.load)
+        ? Promise.all([document.fonts.load('500 120px Cinzel'), document.fonts.ready]).catch(function () {})
+        : Promise.resolve();
+
+      fontsReady.then(function () {
+        fitTitle();
+        if (!hasGSAP || reduceMotion) {
+          showFinal();
+          return;
+        }
+        // wait two frames so the layout is settled before measuring
+        requestAnimationFrame(function () {
+          requestAnimationFrame(play);
+        });
+      });
+    }
+
+    init();
+  })();
+  </script>
+</body>
+</html>
