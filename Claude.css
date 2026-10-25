@@ -1,0 +1,405 @@
+/* ==========================================================================
+   JAI SHREE RADHEKRISHN - hero stylesheet
+   The design is laid out on a fixed 2752 x 1536 px stage (the size of the
+   reference image) and scaled to cover the screen, so every position below
+   is a measured pixel position from the reference.
+   ========================================================================== */
+
+:root {
+  --navy-1: #061026;
+  --navy-2: #0b1d3a;
+  --gold: #e2c389;
+  --gold-line: #dcbc7f;
+
+  /* set by script */
+  --k: 1;
+  --t-fs: 170px;
+  --t-sx: 1;
+  --t-lh: 183px;
+  --t-top: 360px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--navy-1);
+}
+
+body {
+  font-family: 'Cinzel', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  color: var(--gold);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a {
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 1px solid rgba(255, 225, 150, 0.8);
+  outline-offset: 4px;
+}
+
+/* hidden SVG defs (filters must live in the document, not display:none) */
+.svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* ---------- viewport and stage ---------- */
+.viewport {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--navy-1);
+}
+
+.stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2752px;
+  height: 1536px;
+  transform: translate(-50%, -50%) scale(var(--k));
+  transform-origin: 50% 50%;
+  background:
+    radial-gradient(ellipse 700px 380px at 900px 60px, rgba(24, 52, 98, 0.45), transparent 75%),
+    radial-gradient(ellipse 620px 520px at 2752px 0px, rgba(4, 8, 24, 0.5), transparent 72%),
+    radial-gradient(ellipse 420px 360px at 1980px 980px, rgba(74, 70, 132, 0.32), transparent 72%),
+    radial-gradient(ellipse 520px 420px at 2000px 1450px, rgba(44, 44, 96, 0.1), transparent 72%),
+    linear-gradient(180deg, #0a1835 0%, #0a1430 45%, #0a1430 65%, #080c28 90%, #070b25 100%);
+}
+
+/* golden waves and ornaments */
+.decor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2752px;
+  height: 1536px;
+  pointer-events: none;
+}
+
+/* dark-teal cover that the feather uncovers at the start */
+.intro-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 90% at 50% 38%,
+    #0f5b53 0%,
+    #0a3d40 38%,
+    #062528 72%,
+    #041a1f 100%
+  );
+}
+
+/* ---------- navbar ---------- */
+.nav {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2752px;
+  height: 147px;
+  z-index: 10;
+}
+
+.nav::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: rgba(214, 178, 94, 0.22);
+}
+
+.brand {
+  position: absolute;
+  left: 149px;
+  top: 42px;
+  width: 62px;
+  height: 62px;
+  filter: drop-shadow(0 0 8px rgba(255, 200, 100, 0.25));
+}
+
+.icon-btn {
+  position: absolute;
+  top: 46px;
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  color: #d9b874;
+  opacity: 0.9;
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+.icon-btn svg {
+  width: 56px;
+  height: 56px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 0.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon-btn:hover,
+.icon-btn:focus-visible {
+  opacity: 1;
+  filter: drop-shadow(0 0 8px rgba(255, 205, 120, 0.6));
+}
+
+.icon-search { left: 2334px; }
+.icon-audio { left: 2442px; }
+.icon-profile { left: 2547px; }
+
+.icon-audio .i-off { display: none; }
+.icon-audio[data-muted="true"] .i-on { display: none; }
+.icon-audio[data-muted="true"] .i-off { display: block; }
+
+/* ---------- title: centred on x = 897, cap top 544 / baseline 666 ---------- */
+.title {
+  position: absolute;
+  left: 0;
+  top: var(--t-top);
+  width: 1794px;
+  margin: 0;
+  text-align: center;
+  font-family: 'Cinzel', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-weight: 500;
+  font-size: var(--t-fs);
+  line-height: var(--t-lh);
+  text-transform: uppercase;
+  white-space: nowrap;
+  z-index: 11;
+  pointer-events: none;
+}
+
+.title-inner {
+  display: block;
+  transform: scaleX(var(--t-sx));
+  transform-origin: 50% 0;
+}
+
+.title .line {
+  display: block;
+  background-image: linear-gradient(180deg, #efdba2 0%, #e4c78b 50%, #dab874 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* same text on top, carrying the golden shimmer that sweeps across during the reveal */
+.title-shine {
+  z-index: 12;
+}
+
+.title-shine .line {
+  background-image: linear-gradient(
+    100deg,
+    rgba(255, 246, 210, 0) 36%,
+    rgba(255, 250, 226, 0.95) 50%,
+    rgba(255, 246, 210, 0) 64%
+  );
+  background-size: 260% 100%;
+  background-repeat: no-repeat;
+  background-position: 100% 50%;
+}
+
+/* warm glow under RADHEKRISHN (brightest near x = 987, y = 852) */
+.underglow {
+  position: absolute;
+  left: 775px;
+  top: 834px;
+  width: 360px;
+  height: 36px;
+  z-index: 10;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  background: radial-gradient(
+    ellipse 50% 42% at 50% 50%,
+    rgba(255, 244, 205, 1) 0%,
+    rgba(250, 216, 140, 0.72) 30%,
+    rgba(229, 181, 82, 0.2) 62%,
+    transparent 80%
+  );
+  filter: blur(1.5px);
+}
+
+/* ---------- pill buttons (290 x 98 px at x 584 and x 920, y 952) ---------- */
+.pills {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2752px;
+  height: 1536px;
+  z-index: 12;
+  pointer-events: none;
+}
+
+.pill {
+  position: absolute;
+  top: 952px;
+  width: 290px;
+  height: 98px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 2px solid var(--gold-line);
+  color: #f2d88f;
+  background:
+    radial-gradient(ellipse 60% 70% at 50% 100%, rgba(226, 180, 90, 0.2), transparent 75%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.01)),
+    rgba(12, 30, 62, 0.55);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  backdrop-filter: blur(10px) saturate(120%);
+  box-shadow:
+    0 0 22px rgba(230, 190, 110, 0.22),
+    inset 0 0 18px rgba(230, 190, 110, 0.12);
+  pointer-events: auto;
+  transition: box-shadow 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+}
+
+.pill-play { left: 584px; }
+.pill-arrow { left: 920px; }
+
+.pill:hover,
+.pill:focus-visible {
+  border-color: #fbe3a0;
+  color: #fff3c8;
+  box-shadow:
+    0 0 36px rgba(255, 214, 130, 0.5),
+    inset 0 0 24px rgba(255, 214, 130, 0.22);
+}
+
+.pill svg {
+  width: 56px;
+  height: 56px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Radha-Krishna scene ----------
+   The scene is the container for the artwork and the feather. It sits at the
+   artwork's measured position on the stage and carries the 3D perspective. */
+.scene {
+  position: absolute;
+  left: 1575px;
+  top: 235px;
+  width: 1125px;
+  height: 1160px;
+  z-index: 14;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.art {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* The morpankh (peacock feather) sits on Krishna's crown.
+   left / top / width / height are percentages of the scene, so it stays
+   on the crown at any screen size. */
+.feather {
+  position: absolute;
+  left: 41.07%;
+  top: 2.76%;
+  width: 11.82%;
+  height: 18.36%;
+  transform-style: preserve-3d;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.feather-glow {
+  position: absolute;
+  left: -45%;
+  top: -36%;
+  width: 190%;
+  height: 170%;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    rgba(70, 255, 226, 0.24),
+    rgba(24, 196, 206, 0.09) 55%,
+    transparent 80%
+  );
+}
+
+.feather svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter:
+    url(#wind-ripple)
+    drop-shadow(0 0 6px rgba(60, 255, 230, 0.55));
+}
+
+.feather.landed svg {
+  filter:
+    url(#wind-ripple)
+    drop-shadow(0 0 5px rgba(70, 255, 226, 0.65))
+    drop-shadow(0 0 12px rgba(30, 215, 190, 0.35));
+}
+
+/* ---------- starting state (the script reveals these) ---------- */
+.js-intro .nav,
+.js-intro .title,
+.js-intro .underglow,
+.js-intro .pills,
+.js-intro .art {
+  opacity: 0;
+}
+
+.js-intro .feather {
+  opacity: 0;
+}
+
+/* ---------- wind and dust canvas (viewport level) ---------- */
+#fx {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 50;
+}
