@@ -1,257 +1,943 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jai Shree Radhekrishna</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jai Shree Radhekrishn</title>
+  <!-- High-Contrast Classical Serif Font matching the reference typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <!-- shared gradients for the flame and the lotus -->
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-        <defs>
-            <radialGradient id="flameGrad" cx="50%" cy="70%" r="60%">
-                <stop offset="0" stop-color="#fff6c2"/>
-                <stop offset="0.45" stop-color="#ffb13b"/>
-                <stop offset="1" stop-color="#e0561a" stop-opacity="0.9"/>
-            </radialGradient>
-            <linearGradient id="lotusGrad" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0" stop-color="#e88aa3"/>
-                <stop offset="1" stop-color="#fbe3e8"/>
+
+  <!-- SVG Filter: Pavan (Wind) na lidhe Morpankh na tana halta dekhay te mate -->
+  <svg class="svg-filters" aria-hidden="true">
+    <defs>
+      <filter id="wind-ripple" x="-30%" y="-30%" width="160%" height="160%">
+        <feTurbulence id="turbulence" type="fractalNoise" baseFrequency="0.014 0.035" numOctaves="2" seed="8" result="noise" />
+        <feDisplacementMap id="displacement" in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Main 16:9 Stage (1200px 3D Perspective) -->
+  <main class="stage-wrapper" id="stageWrapper">
+    <div class="artboard" id="artboard">
+
+      <!-- LAYER 1: Base Background (Dark Navy Sky, Subtle Golden Waves & Ornaments) -->
+      <div class="layer-bg">
+        <svg class="bg-decor-svg" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="goldWaveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#d4af62" stop-opacity="0.28" />
+              <stop offset="50%" stop-color="#f5d78e" stop-opacity="0.18" />
+              <stop offset="100%" stop-color="#d4af62" stop-opacity="0" />
             </linearGradient>
-        </defs>
-    </svg>
+            <linearGradient id="rightWaveGrad" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#d4af62" stop-opacity="0.24" />
+              <stop offset="55%" stop-color="#d4af62" stop-opacity="0.10" />
+              <stop offset="100%" stop-color="#d4af62" stop-opacity="0" />
+            </linearGradient>
+          </defs>
 
-    <div class="scene">
-        <div class="halo"></div>
+          <!-- Flowing Multi-Line Golden Waves (Bottom-Left) -->
+          <g stroke="url(#goldWaveGrad)" stroke-width="1">
+            <path d="M-20 620 C 120 740, 290 710, 440 820 C 590 930, 780 760, 1060 850" />
+            <path d="M-20 634 C 125 752, 295 720, 445 830 C 595 940, 785 770, 1065 860" />
+            <path d="M-20 648 C 130 764, 300 730, 450 840 C 600 950, 790 780, 1070 870" />
+            <path d="M-20 662 C 135 776, 305 740, 455 850 C 605 960, 795 790, 1075 880" />
+            <path d="M-20 676 C 140 788, 310 750, 460 860 C 610 970, 800 800, 1080 890" />
+            <path d="M-20 690 C 145 800, 315 760, 465 870 C 615 980, 805 810, 1085 900" />
+            <path d="M-20 704 C 150 812, 320 770, 470 880 C 620 990, 810 820, 1090 910" />
+            <path d="M-20 718 C 155 824, 325 780, 475 890 C 625 1000, 815 830, 1095 920" />
+            <path d="M-20 732 C 160 836, 330 790, 480 900 C 630 1010, 820 840, 1100 930" />
+            <path d="M-20 746 C 165 848, 335 800, 485 910 C 635 1020, 825 850, 1105 940" />
+          </g>
 
-        <!-- a faint mandala behind the name -->
-        <svg class="mandala" viewBox="0 0 400 400" aria-hidden="true">
-            <defs>
-                <ellipse id="petalOuter" cx="200" cy="70" rx="14" ry="42"/>
-                <ellipse id="petalInner" cx="200" cy="150" rx="8" ry="28"/>
-            </defs>
-            <g fill="none" stroke="#a87a2e" stroke-width="1.2">
-                <circle cx="200" cy="200" r="190"/>
-                <circle cx="200" cy="200" r="176"/>
-                <circle cx="200" cy="200" r="120"/>
-                <circle cx="200" cy="200" r="60"/>
-                <use href="#petalOuter" transform="rotate(0 200 200)"/>
-                <use href="#petalOuter" transform="rotate(22.5 200 200)"/>
-                <use href="#petalOuter" transform="rotate(45 200 200)"/>
-                <use href="#petalOuter" transform="rotate(67.5 200 200)"/>
-                <use href="#petalOuter" transform="rotate(90 200 200)"/>
-                <use href="#petalOuter" transform="rotate(112.5 200 200)"/>
-                <use href="#petalOuter" transform="rotate(135 200 200)"/>
-                <use href="#petalOuter" transform="rotate(157.5 200 200)"/>
-                <use href="#petalOuter" transform="rotate(180 200 200)"/>
-                <use href="#petalOuter" transform="rotate(202.5 200 200)"/>
-                <use href="#petalOuter" transform="rotate(225 200 200)"/>
-                <use href="#petalOuter" transform="rotate(247.5 200 200)"/>
-                <use href="#petalOuter" transform="rotate(270 200 200)"/>
-                <use href="#petalOuter" transform="rotate(292.5 200 200)"/>
-                <use href="#petalOuter" transform="rotate(315 200 200)"/>
-                <use href="#petalOuter" transform="rotate(337.5 200 200)"/>
-                <use href="#petalInner" transform="rotate(11.25 200 200)"/>
-                <use href="#petalInner" transform="rotate(33.75 200 200)"/>
-                <use href="#petalInner" transform="rotate(56.25 200 200)"/>
-                <use href="#petalInner" transform="rotate(78.75 200 200)"/>
-                <use href="#petalInner" transform="rotate(101.25 200 200)"/>
-                <use href="#petalInner" transform="rotate(123.75 200 200)"/>
-                <use href="#petalInner" transform="rotate(146.25 200 200)"/>
-                <use href="#petalInner" transform="rotate(168.75 200 200)"/>
-                <use href="#petalInner" transform="rotate(191.25 200 200)"/>
-                <use href="#petalInner" transform="rotate(213.75 200 200)"/>
-                <use href="#petalInner" transform="rotate(236.25 200 200)"/>
-                <use href="#petalInner" transform="rotate(258.75 200 200)"/>
-                <use href="#petalInner" transform="rotate(281.25 200 200)"/>
-                <use href="#petalInner" transform="rotate(303.75 200 200)"/>
-                <use href="#petalInner" transform="rotate(326.25 200 200)"/>
-                <use href="#petalInner" transform="rotate(348.75 200 200)"/>
-            </g>
+          <!-- Flowing Multi-Line Golden Waves (Top-Right Behind Radha-Krishna) -->
+          <g stroke="url(#rightWaveGrad)" stroke-width="1">
+            <path d="M1240 340 C 1420 420, 1620 240, 1790 310 C 1860 340, 1900 390, 1940 430" />
+            <path d="M1250 354 C 1430 432, 1625 252, 1795 322 C 1865 352, 1905 402, 1940 444" />
+            <path d="M1260 368 C 1440 444, 1630 264, 1800 334 C 1870 364, 1910 414, 1940 458" />
+            <path d="M1270 382 C 1450 456, 1635 276, 1805 346 C 1875 376, 1915 426, 1940 472" />
+            <path d="M1280 396 C 1460 468, 1640 288, 1810 358 C 1880 388, 1920 438, 1940 486" />
+            <path d="M1290 410 C 1470 480, 1645 300, 1815 370 C 1885 400, 1925 450, 1940 500" />
+            <path d="M1300 424 C 1480 492, 1650 312, 1820 382 C 1890 412, 1930 462, 1940 514" />
+          </g>
+
+          <!-- Subtle Geometric Diamond Ornament Above Title -->
+          <g transform="translate(862, 268)" stroke="#d4af62" stroke-opacity="0.18" stroke-width="1">
+            <polygon points="0,-28 28,0 0,28 -28,0" />
+            <polygon points="0,-20 20,0 0,20 -20,0" />
+          </g>
+
+          <!-- Subtle Geometric Mandala Near Bottom Center -->
+          <g transform="translate(1065, 855)" stroke="#d4af62" stroke-opacity="0.14" stroke-width="1">
+            <line x1="-45" y1="-45" x2="45" y2="45" />
+            <line x1="45" y1="-45" x2="-45" y2="45" />
+            <polygon points="0,-55 55,0 0,55 -55,0" />
+            <polygon points="0,-38 38,0 0,38 -38,0" />
+            <polygon points="0,-22 22,0 0,22 -22,0" />
+          </g>
+
+          <!-- Fixed Four-Pointed Sparkle Stars from Reference Image -->
+          <g fill="#e8c878" opacity="0.85">
+            <!-- Left & Top-Left Stars -->
+            <path d="M249 332 L252 342 L262 345 L252 348 L249 358 L246 348 L236 345 L246 342 Z" />
+            <path d="M159 950 L162 960 L172 963 L162 966 L159 976 L156 966 L146 963 L156 960 Z" />
+            <path d="M148 638 L150 644 L156 646 L150 648 L148 654 L146 648 L140 646 L146 644 Z" />
+            <path d="M203 288 L205 293 L210 295 L205 297 L203 302 L201 297 L196 295 L201 293 Z" />
+            <path d="M524 218 L526 223 L531 225 L526 227 L524 232 L522 227 L517 225 L522 223 Z" />
+            <!-- Center & Near Radha-Krishna Stars -->
+            <path d="M1133 367 L1136 376 L1145 379 L1136 382 L1133 391 L1130 382 L1121 379 L1130 376 Z" />
+            <path d="M1193 243 L1196 252 L1205 255 L1196 258 L1193 267 L1190 258 L1181 255 L1190 252 Z" />
+            <path d="M1658 190 L1660 195 L1665 197 L1660 199 L1658 204 L1656 199 L1651 197 L1656 195 Z" />
+            <path d="M1799 188 L1801 194 L1807 196 L1801 198 L1799 204 L1797 198 L1791 196 L1797 194 Z" />
+            <path d="M824 932 L826 937 L831 939 L826 941 L824 946 L822 941 L817 939 L822 937 Z" />
+          </g>
+
+          <!-- Bottom-Right Soft Silver Four-Pointed Star Emblem -->
+          <path d="M1840 968 C 1848 992, 1854 998, 1878 1006 C 1854 1014, 1848 1020, 1840 1044 C 1832 1020, 1826 1014, 1802 1006 C 1826 998, 1832 992, 1840 968 Z"
+                fill="#9aa5b8" opacity="0.75" />
         </svg>
+      </div>
 
-        <div class="frame"></div>
-        <div class="winds" id="winds"></div>
-        <div class="petals" id="petals"></div>
+      <!-- LAYER 2: Top Navbar (Golden Emblem, Divider Line & Search / Audio / Profile Icons) -->
+      <header class="layer-slice slice-navbar" id="sliceNavbar">
+        <svg class="navbar-svg" viewBox="0 0 1920 108" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="navGold" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fae596" />
+              <stop offset="50%" stop-color="#d4af62" />
+              <stop offset="100%" stop-color="#9e762c" />
+            </linearGradient>
+          </defs>
 
-        <div class="diya diya-left" aria-hidden="true">
-            <div class="diya-glow"></div>
-            <svg viewBox="0 0 80 90" class="diya-svg">
-                <path class="flame" d="M40 4 C50 22 54 32 40 48 C26 32 30 22 40 4 Z" fill="url(#flameGrad)"/>
-                <path d="M8 50 Q40 84 72 50 Z" fill="#8a4d22"/>
-                <ellipse cx="40" cy="50" rx="32" ry="4.5" fill="#a8652e"/>
-            </svg>
+          <!-- Left Ornamental Lotus-Diamond Logo -->
+          <g transform="translate(126, 52)">
+            <polygon points="0,-20 9,-7 0,6 -9,-7" fill="url(#navGold)" />
+            <path d="M-12,-4 C -19,2 -19,12 -14,18 C -8,12 -4,8 -2,6 Z" fill="url(#navGold)" />
+            <path d="M12,-4 C 19,2 19,12 14,18 C 8,12 4,8 2,6 Z" fill="url(#navGold)" />
+            <polygon points="0,9 5,15 0,21 -5,15" fill="url(#navGold)" />
+          </g>
+
+          <!-- Right Icons: Search, Speaker/Audio, Profile -->
+          <g stroke="#d4af62" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" opacity="0.88">
+            <!-- Search Icon -->
+            <circle cx="1648" cy="50" r="11" />
+            <line x1="1656" y1="58" x2="1665" y2="67" />
+
+            <!-- Speaker / Audio Icon -->
+            <path d="M1710 45 H1717 L1726 37 V65 L1717 57 H1710 Z" />
+            <path d="M1732 44 C 1735 47, 1735 55, 1732 58" />
+            <path d="M1736 39 C 1741 45, 1741 57, 1736 63" />
+
+            <!-- User Profile Icon -->
+            <circle cx="1796" cy="43" r="7.5" />
+            <path d="M1782 65 C 1782 56, 1810 56, 1810 65" />
+          </g>
+
+          <!-- Subtle Bottom Border Line -->
+          <line x1="0" y1="104" x2="1920" y2="104" stroke="#d4af62" stroke-opacity="0.18" stroke-width="1" />
+        </svg>
+      </header>
+
+      <!-- LAYER 3: "JAI SHREE RADHEKRISHN" Title + Warm Under-Glow + Golden Shimmer Sweep -->
+      <section class="layer-slice slice-title" id="sliceTitle">
+        <div class="title-content">
+          <h1 class="hero-heading">
+            <span class="heading-line-1">JAI SHREE</span>
+            <span class="heading-line-2">RADHEKRISHN</span>
+          </h1>
+          <!-- Warm Golden Horizon Flare underneath "RADHEKRISHN" -->
+          <div class="title-underglow"></div>
+          <!-- Shimmer Sweep Layer for the 1.5s–3.0s Reveal -->
+          <div class="title-shimmer" id="titleShimmer"></div>
         </div>
-        <div class="diya diya-right" aria-hidden="true">
-            <div class="diya-glow"></div>
-            <svg viewBox="0 0 80 90" class="diya-svg">
-                <path class="flame" d="M40 4 C50 22 54 32 40 48 C26 32 30 22 40 4 Z" fill="url(#flameGrad)"/>
-                <path d="M8 50 Q40 84 72 50 Z" fill="#8a4d22"/>
-                <ellipse cx="40" cy="50" rx="32" ry="4.5" fill="#a8652e"/>
-            </svg>
+      </section>
+
+      <!-- LAYER 4: Play & Arrow Pill Buttons -->
+      <div class="layer-slice slice-buttons" id="sliceButtons">
+        <button class="pill-btn play-pill" id="replayBtn" title="Replay Wind Animation" aria-label="Replay Animation">
+          <svg viewBox="0 0 36 36" class="pill-icon" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="11,7 28,18 11,29" stroke="#e5c172" stroke-width="2" stroke-linejoin="round" />
+          </svg>
+        </button>
+
+        <button class="pill-btn arrow-pill" id="enterBtn" title="Enter" aria-label="Enter">
+          <svg viewBox="0 0 44 36" class="pill-icon" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="6" y1="18" x2="36" y2="18" stroke="#e5c172" stroke-width="2" stroke-linecap="round" />
+            <polyline points="26,9 36,18 26,27" stroke="#e5c172" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Top-right Speaker Icon Clickable Hotspot for Replaying -->
+      <button class="hotspot-btn audio-hotspot" id="audioBtn" title="Replay Animation" aria-label="Audio / Replay"></button>
+
+      <!-- LAYER 5 & 6: Radha-Krishna Container (Reverse-Anchor Parent with 1200px 3D Preservation) -->
+      <div class="rk-container" id="rkContainer">
+
+        <!-- 5A: Complete Radha-Krishna Line-Art Illustration & Glowing Pink-Gold Lotus -->
+        <div class="layer-slice slice-radhakrishna" id="sliceRK">
+          <svg class="rk-illustration-svg" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <!-- Metallic Gold Line Gradient -->
+              <linearGradient id="rkGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fae596" />
+                <stop offset="45%" stop-color="#d8b058" />
+                <stop offset="100%" stop-color="#9b7228" />
+              </linearGradient>
+
+              <!-- Soft Steel-Blue Contour Line Gradient for Krishna -->
+              <linearGradient id="krishnaBlueLine" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#5d85b8" stop-opacity="0.85" />
+                <stop offset="55%" stop-color="#3c6294" stop-opacity="0.75" />
+                <stop offset="100%" stop-color="#1e3a63" stop-opacity="0.4" />
+              </linearGradient>
+
+              <!-- Deep Navy Body Silhouette Gradient -->
+              <linearGradient id="krishnaBodyFill" x1="30%" y1="10%" x2="75%" y2="95%">
+                <stop offset="0%" stop-color="#112a54" stop-opacity="0.82" />
+                <stop offset="55%" stop-color="#0d2246" stop-opacity="0.72" />
+                <stop offset="100%" stop-color="#061024" stop-opacity="0" />
+              </linearGradient>
+
+              <!-- Draper Shawl Blue Highlight Fill -->
+              <linearGradient id="shawlFill" x1="50%" y1="0%" x2="50%" y2="100%">
+                <stop offset="0%" stop-color="#1e4478" stop-opacity="0.55" />
+                <stop offset="70%" stop-color="#14325c" stop-opacity="0.45" />
+                <stop offset="100%" stop-color="#061024" stop-opacity="0" />
+              </linearGradient>
+
+              <!-- Lotus Pink-Magenta Inner Glow -->
+              <radialGradient id="lotusCoreGlow" cx="50%" cy="48%" r="55%">
+                <stop offset="0%" stop-color="#ff85b3" stop-opacity="0.95" />
+                <stop offset="40%" stop-color="#e04882" stop-opacity="0.65" />
+                <stop offset="75%" stop-color="#8a2452" stop-opacity="0.25" />
+                <stop offset="100%" stop-color="#061024" stop-opacity="0" />
+              </radialGradient>
+
+              <!-- Lotus Petal Fill -->
+              <linearGradient id="lotusPetalGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+                <stop offset="0%" stop-color="#ff99c2" stop-opacity="0.88" />
+                <stop offset="55%" stop-color="#c93b72" stop-opacity="0.78" />
+                <stop offset="100%" stop-color="#5e1b42" stop-opacity="0.65" />
+              </linearGradient>
+
+              <!-- Outer Lotus Petal Fill -->
+              <linearGradient id="lotusOuterPetalGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+                <stop offset="0%" stop-color="#e35d92" stop-opacity="0.72" />
+                <stop offset="65%" stop-color="#872652" stop-opacity="0.62" />
+                <stop offset="100%" stop-color="#38122e" stop-opacity="0.45" />
+              </linearGradient>
+            </defs>
+
+            <!-- ============================================================
+                 1. AMBIENT GLOW BEHIND RADHA-KRISHNA
+                 ============================================================ -->
+            <ellipse cx="1520" cy="590" rx="310" ry="340" fill="url(#krishnaBodyFill)" />
+
+            <!-- ============================================================
+                 2. SHREE KRISHNA (RIGHT / TALLER FIGURE)
+                 ============================================================ -->
+            <!-- Krishna's Draped Shawl / Angavastram Fill -->
+            <path d="M1430 620 C 1425 740, 1465 860, 1545 910 C 1635 935, 1718 830, 1748 615 C 1720 695, 1658 825, 1555 885 C 1495 855, 1465 735, 1430 620 Z"
+                  fill="url(#shawlFill)" />
+
+            <!-- Krishna's Pagdi / Crown & Hair Locks -->
+            <g stroke="url(#krishnaBlueLine)" stroke-width="2.4" stroke-linecap="round">
+              <!-- Top Pagdi / Hair Dome meeting at the exact Morpankh stem (1482, 322) -->
+              <path d="M1482 322 C 1515 262, 1575 256, 1598 292" />
+              <path d="M1532 296 C 1578 282, 1622 292, 1632 338" />
+              <path d="M1452 338 C 1438 358, 1442 385, 1462 405" />
+              <!-- Flowing Curly Hair Locks on Right Side -->
+              <path d="M1632 338 C 1650 358, 1645 388, 1632 412 C 1652 428, 1655 458, 1642 478" />
+              <path d="M1612 355 C 1628 380, 1625 415, 1645 435 C 1668 450, 1678 438, 1672 425" />
+              <path d="M1648 452 C 1665 468, 1675 492, 1660 508" />
+            </g>
+
+            <!-- Golden Crown / Pagdi Ornamental Wave Bands -->
+            <g stroke="url(#rkGold)" stroke-width="2.6" stroke-linecap="round">
+              <path d="M1446 336 C 1462 322, 1482 322, 1492 345" />
+              <path d="M1534 354 C 1568 352, 1592 334, 1628 338" />
+            </g>
+
+            <!-- Krishna's Face Contour, Neck & Shoulders -->
+            <g stroke="url(#krishnaBlueLine)" stroke-width="2.5" stroke-linecap="round">
+              <!-- Face Profile & Jawline -->
+              <path d="M1462 348 C 1458 395, 1472 455, 1515 504 C 1538 518, 1572 492, 1592 448" />
+              <!-- Right Ear -->
+              <path d="M1588 378 C 1606 376, 1612 405, 1596 424" />
+              <!-- Eyebrows -->
+              <path d="M1466 398 C 1478 390, 1492 392, 1498 398" stroke-width="2.2" />
+              <path d="M1516 394 C 1535 378, 1562 376, 1576 388" stroke-width="2.2" />
+              <!-- Serene Closed Eyes -->
+              <path d="M1470 420 C 1480 426, 1492 426, 1500 420" stroke-width="2.2" />
+              <path d="M1522 416 C 1538 422, 1556 418, 1568 408" stroke-width="2.2" />
+              <!-- Nose Bridge & Tip -->
+              <path d="M1502 398 C 1500 422, 1498 442, 1505 452 C 1512 456, 1522 452, 1525 446" stroke-width="2.2" />
+              <!-- Gentle Smiling Lips -->
+              <path d="M1500 472 C 1514 476, 1528 474, 1542 466" stroke-width="2.2" />
+              <path d="M1508 480 C 1518 486, 1532 482, 1538 474" stroke-width="1.9" />
+            </g>
+
+            <!-- Krishna's Golden Vaishnava Tilak & Golden Kundal (Earring) -->
+            <path d="M1491 356 L1495 394 C 1497 400, 1503 400, 1504 394 L1502 354"
+                  stroke="url(#rkGold)" stroke-width="2.3" stroke-linecap="round" />
+            <!-- Golden Drop Earring -->
+            <path d="M1604 422 C 1598 434, 1598 446, 1604 454 C 1610 446, 1610 434, 1604 422 Z"
+                  fill="url(#rkGold)" />
+            <line x1="1604" y1="454" x2="1604" y2="466" stroke="url(#rkGold)" stroke-width="1.8" stroke-linecap="round" />
+
+            <!-- Krishna's Shoulders, Arms, Hands & Draped Shawl Lines -->
+            <g stroke="url(#krishnaBlueLine)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Neck & Right Shoulder -->
+              <path d="M1608 468 C 1622 485, 1642 505, 1695 518 C 1732 528, 1748 548, 1742 575" />
+              <!-- Left Hand (Raised to Play Bansuri) -->
+              <path d="M1608 668 C 1618 625, 1628 585, 1645 555 L1685 516 C 1692 512, 1698 518, 1690 526 L1665 554" />
+              <path d="M1665 554 L1702 532 C 1708 528, 1714 535, 1706 542 L1678 566" />
+              <path d="M1678 566 L1712 552 C 1718 550, 1722 556, 1714 562 L1686 578" />
+              <path d="M1686 578 L1714 574 C 1718 574, 1720 580, 1712 584 L1675 596 C 1665 625, 1658 658, 1652 688" />
+              <!-- Outer Forearm & Elbow Curve -->
+              <path d="M1608 668 C 1585 735, 1525 815, 1465 848" />
+              <path d="M1652 688 C 1635 765, 1582 855, 1512 885" />
+              <!-- Flowing Shawl Sweeps -->
+              <path d="M1745 612 C 1722 735, 1668 855, 1565 908" />
+              <path d="M1708 605 C 1682 715, 1628 825, 1532 878" />
+              <!-- Inner Chest & Torso Line -->
+              <path d="M1495 595 C 1508 642, 1518 692, 1516 742" />
+            </g>
+
+            <!-- Krishna's Golden Necklaces (Mala) & Golden Wrist Bangles (Kada) -->
+            <g stroke="url(#rkGold)" stroke-width="2.4" stroke-linecap="round">
+              <!-- Inner Necklace -->
+              <path d="M1532 508 C 1545 555, 1575 588, 1612 588 C 1632 588, 1642 545, 1640 492" />
+              <!-- Outer Long Mala -->
+              <path d="M1528 538 C 1542 605, 1575 645, 1608 646 C 1626 646, 1645 535, 1646 485" />
+              <!-- Wrist Bangles (Kada) -->
+              <path d="M1605 662 C 1618 682, 1635 692, 1656 690" stroke-width="2.8" />
+              <path d="M1602 672 C 1615 692, 1632 702, 1653 700" stroke-width="2.8" />
+            </g>
+
+            <!-- ============================================================
+                 3. THE GOLDEN BANSURI (FLUTE) & TASSELS
+                 ============================================================ -->
+            <g stroke="url(#rkGold)" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Flute Main Body -->
+              <path d="M1482 508 L1834 614 L1830 628 L1478 522 Z" fill="#0b1d3b" stroke-width="2.4" />
+              <!-- Decorative Flute Rings -->
+              <line x1="1508" y1="516" x2="1504" y2="530" stroke-width="2.2" />
+              <line x1="1595" y1="542" x2="1591" y2="556" stroke-width="2.2" />
+              <line x1="1786" y1="600" x2="1782" y2="614" stroke-width="2.2" />
+              <!-- Dangling Flute Strings & Beaded Tassels at Right Tip -->
+              <path d="M1794 616 C 1790 645, 1798 672, 1790 702" stroke-width="1.9" fill="none" />
+              <path d="M1804 620 C 1802 650, 1814 682, 1806 716" stroke-width="1.9" fill="none" />
+              <circle cx="1790" cy="706" r="5" fill="url(#rkGold)" />
+              <circle cx="1804" cy="720" r="6" fill="url(#rkGold)" />
+            </g>
+
+            <!-- ============================================================
+                 4. SHREE RADHA (LEFT / LEANING DEVOTIONAL FIGURE)
+                 ============================================================ -->
+            <g stroke="url(#rkGold)" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Outer Sweeping Head Veil (Odhani) -->
+              <path d="M1452 382 C 1412 358, 1345 375, 1308 438 C 1272 500, 1258 552, 1205 608 C 1158 658, 1162 728, 1192 795 C 1202 820, 1198 845, 1192 862"
+                    stroke-width="2.8" />
+              <!-- Inner Veil Gold Trim Line -->
+              <path d="M1462 436 C 1425 432, 1385 452, 1345 482 C 1305 512, 1278 565, 1242 632 C 1208 695, 1218 775, 1242 848"
+                    stroke-width="2.6" />
+
+              <!-- Forehead Maang Tikka (Jewel & Chain) -->
+              <path d="M1432 375 C 1438 398, 1444 420, 1446 438" stroke-width="2" />
+              <path d="M1446 438 C 1440 446, 1440 456, 1446 462 C 1452 456, 1452 446, 1446 438 Z" fill="url(#rkGold)" />
+              <!-- Small Forehead Bindu -->
+              <circle cx="1434" cy="492" r="3" fill="url(#rkGold)" />
+
+              <!-- Radha's Face Profile & Chin -->
+              <path d="M1464 446 C 1472 485, 1462 535, 1428 574 C 1402 598, 1365 582, 1342 538"
+                    stroke-width="2.3" />
+
+              <!-- Radha's Eyebrows & Closed Devotional Eyes with Lashes -->
+              <path d="M1372 476 C 1392 474, 1414 484, 1426 498" stroke-width="2.2" />
+              <path d="M1445 500 C 1455 494, 1464 494, 1468 498" stroke-width="2.0" />
+              <!-- Left Closed Eye & Lashes -->
+              <path d="M1376 500 C 1390 512, 1408 516, 1420 512" stroke-width="2.2" />
+              <line x1="1386" y1="508" x2="1382" y2="515" stroke-width="1.6" />
+              <line x1="1398" y1="513" x2="1395" y2="520" stroke-width="1.6" />
+              <line x1="1410" y1="514" x2="1409" y2="521" stroke-width="1.6" />
+              <!-- Right Closed Eye -->
+              <path d="M1442 520 C 1452 524, 1460 522, 1465 516" stroke-width="2.0" />
+
+              <!-- Radha's Nose & Gentle Smile -->
+              <path d="M1436 498 C 1432 518, 1428 534, 1420 544 C 1412 546, 1406 542, 1405 536" stroke-width="2.1" />
+              <path d="M1392 556 C 1402 564, 1414 566, 1424 562" stroke-width="2.1" />
+              <path d="M1398 564 C 1405 570, 1414 570, 1420 564" stroke-width="1.7" />
+
+              <!-- Radha's Ornate Jhumka (Earring) -->
+              <circle cx="1320" cy="505" r="5" fill="url(#rkGold)" />
+              <path d="M1318 512 C 1310 526, 1310 542, 1318 554 C 1326 542, 1326 526, 1318 512 Z" fill="url(#rkGold)" />
+              <line x1="1315" y1="554" x2="1312" y2="566" stroke-width="1.6" />
+
+              <!-- Radha's Clasped Hands on Krishna's Shoulder -->
+              <path d="M1375 680 C 1392 642, 1402 608, 1415 582 L1452 552 C 1458 548, 1464 554, 1456 562 L1428 588" stroke-width="2.1" />
+              <path d="M1428 588 L1468 558 C 1474 554, 1480 560, 1472 568 L1438 598" stroke-width="2.1" />
+              <path d="M1438 598 L1474 572 C 1480 568, 1484 575, 1476 582 L1445 610" stroke-width="2.1" />
+              <path d="M1445 610 L1472 590 C 1478 588, 1480 594, 1474 600 L1440 632 C 1428 658, 1420 682, 1412 708" stroke-width="2.1" />
+
+              <!-- Radha's Three Golden Bangles -->
+              <path d="M1372 682 C 1388 688, 1404 698, 1415 712" stroke-width="2.6" />
+              <path d="M1368 692 C 1384 698, 1400 708, 1411 722" stroke-width="2.6" />
+              <path d="M1362 702 C 1378 708, 1394 718, 1405 732" stroke-width="2.6" />
+
+              <!-- Radha's Arms, Sari Blouse & Necklaces -->
+              <path d="M1362 702 C 1335 745, 1305 782, 1282 798 C 1265 768, 1252 715, 1248 665" stroke-width="2.4" />
+              <path d="M1405 732 C 1385 785, 1358 835, 1325 858 C 1295 842, 1272 795, 1262 745" stroke-width="2.3" />
+              <path d="M1248 748 C 1265 725, 1288 712, 1312 715" stroke-width="2.0" />
+              <!-- Radha's Necklace & Sari Shoulder Drape -->
+              <path d="M1298 588 C 1312 628, 1338 658, 1368 672" stroke-width="2.4" />
+              <path d="M1288 602 C 1308 648, 1338 678, 1365 690" stroke-width="2.0" />
+              <path d="M1275 698 C 1315 662, 1358 618, 1392 588" stroke-width="2.5" />
+
+              <!-- Bottom Left Ornamental Swirl Flourish -->
+              <path d="M1395 922 C 1355 922, 1315 902, 1275 885 C 1235 868, 1192 882, 1186 914 C 1182 935, 1205 948, 1222 936 C 1235 926, 1232 908, 1220 904"
+                    stroke-width="2.3" />
+            </g>
+
+            <!-- Bottom-Right Decorative Scroll Flourish -->
+            <path d="M1605 918 C 1645 908, 1685 878, 1712 868 C 1728 862, 1732 885, 1722 912 C 1715 935, 1735 952, 1756 942 C 1775 932, 1778 908, 1762 900 C 1750 895, 1742 908, 1748 918"
+                  stroke="#3c5275" stroke-width="2.2" stroke-linecap="round" opacity="0.65" />
+
+            <!-- ============================================================
+                 5. GLOWING PINK-GOLD LOTUS AT THE BASE (X: 1450, Y: 885)
+                 ============================================================ -->
+            <g transform="translate(1450, 885)">
+              <!-- Ambient Pink-Gold Bloom Behind Lotus -->
+              <ellipse cx="0" cy="-10" rx="125" ry="95" fill="url(#lotusCoreGlow)" />
+
+              <!-- Back Layer Petals -->
+              <path d="M-38 10 C -68 -28, -74 -64, -54 -84 C -36 -68, -24 -42, -18 5 Z"
+                    fill="url(#lotusOuterPetalGrad)" stroke="url(#rkGold)" stroke-width="2" />
+              <path d="M38 10 C 68 -28, 74 -64, 54 -84 C 36 -68, 24 -42, 18 5 Z"
+                    fill="url(#lotusOuterPetalGrad)" stroke="url(#rkGold)" stroke-width="2" />
+
+              <!-- Mid-Side Spreading Petals -->
+              <path d="M-48 22 C -88 2, -104 -28, -94 -54 C -68 -46, -42 -22, -24 16 Z"
+                    fill="url(#lotusOuterPetalGrad)" stroke="url(#rkGold)" stroke-width="2.2" />
+              <path d="M48 22 C 88 2, 104 -28, 94 -54 C 68 -46, 42 -22, 24 16 Z"
+                    fill="url(#lotusOuterPetalGrad)" stroke="url(#rkGold)" stroke-width="2.2" />
+
+              <!-- Lower Horizontal Base Petals -->
+              <path d="M-32 32 C -72 38, -96 48, -98 34 C -84 18, -58 14, -24 24 Z"
+                    fill="url(#lotusOuterPetalGrad)" stroke="url(#rkGold)" stroke-width="2.2" />
+              <path d="M32 32 C 72 38, 96 48, 98 34 C 84 18, 58 14, 24 24 Z"
+                    fill="url(#lotusOuterPetalGrad)" stroke="url(#rkGold)" stroke-width="2.2" />
+
+              <!-- Left & Right Inner Upright Petals -->
+              <path d="M-18 24 C -52 -8, -58 -52, -32 -78 C -12 -52, -6 -18, -8 24 Z"
+                    fill="url(#lotusPetalGrad)" stroke="url(#rkGold)" stroke-width="2.3" />
+              <path d="M18 24 C 52 -8, 58 -52, 32 -78 C 12 -52, 6 -18, 8 24 Z"
+                    fill="url(#lotusPetalGrad)" stroke="url(#rkGold)" stroke-width="2.3" />
+
+              <!-- Central Main Blooming Petal -->
+              <path d="M0 28 C -34 -6, -34 -56, 0 -88 C 34 -56, 34 -6, 0 28 Z"
+                    fill="url(#lotusPetalGrad)" stroke="url(#rkGold)" stroke-width="2.5" />
+
+              <!-- Foreground Bottom-Cup Petals -->
+              <path d="M-4 32 C -36 36, -58 26, -62 12 C -38 10, -18 18, -4 32 Z"
+                    fill="url(#lotusPetalGrad)" stroke="url(#rkGold)" stroke-width="2.1" />
+              <path d="M4 32 C 36 36, 58 26, 62 12 C 38 10, 18 18, 4 32 Z"
+                    fill="url(#lotusPetalGrad)" stroke="url(#rkGold)" stroke-width="2.1" />
+              <path d="M0 68 C -22 52, -24 34, 0 26 C 24 34, 22 52, 0 68 Z"
+                    fill="url(#lotusOuterPetalGrad)" stroke="url(#rkGold)" stroke-width="2.3" />
+            </g>
+          </svg>
         </div>
 
-        <div class="lotus" id="lotus" aria-hidden="true">
-            <svg viewBox="0 0 200 150" class="lotus-svg">
-                <path class="pt" style="--a:-60deg; --d:0s" d="M100 130 C78 112 74 70 100 22 C126 70 122 112 100 130 Z" fill="url(#lotusGrad)"/>
-                <path class="pt" style="--a:-30deg; --d:0.1s" d="M100 130 C78 112 74 70 100 22 C126 70 122 112 100 130 Z" fill="url(#lotusGrad)"/>
-                <path class="pt" style="--a:0deg; --d:0.2s" d="M100 130 C78 112 74 70 100 22 C126 70 122 112 100 130 Z" fill="url(#lotusGrad)"/>
-                <path class="pt" style="--a:30deg; --d:0.1s" d="M100 130 C78 112 74 70 100 22 C126 70 122 112 100 130 Z" fill="url(#lotusGrad)"/>
-                <path class="pt" style="--a:60deg; --d:0s" d="M100 130 C78 112 74 70 100 22 C126 70 122 112 100 130 Z" fill="url(#lotusGrad)"/>
-                <path class="pt pt-in" style="--a:-36deg; --d:0.7s" d="M100 130 C86 118 84 92 100 60 C116 92 114 118 100 130 Z" fill="#f9d3dc"/>
-                <path class="pt pt-in" style="--a:-12deg; --d:0.8s" d="M100 130 C86 118 84 92 100 60 C116 92 114 118 100 130 Z" fill="#f9d3dc"/>
-                <path class="pt pt-in" style="--a:12deg; --d:0.8s" d="M100 130 C86 118 84 92 100 60 C116 92 114 118 100 130 Z" fill="#f9d3dc"/>
-                <path class="pt pt-in" style="--a:36deg; --d:0.7s" d="M100 130 C86 118 84 92 100 60 C116 92 114 118 100 130 Z" fill="#f9d3dc"/>
-                <circle class="seed" cx="100" cy="126" r="7" fill="#d8b57c"/>
-            </svg>
-        </div>
+        <!-- 5B: THE ANIMATED MORPANKH (Nested directly inside Radha-Krishna container at exact Crown coordinates: left 72.6%, top 15.8%) -->
+        <div class="morpankh-anchor" id="morpankhAnchor">
+          
+          <!-- Cyan-Turquoise Glow Halo matching the reference artwork -->
+          <div class="morpankh-halo" id="morpankhHalo"></div>
 
-        <main class="intro">
-            <div class="stage" id="stage">
-                <p id="say-line"></p>
-            </div>
-        </main>
+          <!-- 1:1 Rich, Multi-Layered Vector Morpankh -->
+          <svg class="morpankh-exact-svg" id="morpankhVector" viewBox="0 0 220 310" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <!-- Cyan Outer Glow -->
+              <radialGradient id="exactCyanAura" cx="48%" cy="46%" r="48%">
+                <stop offset="0%" stop-color="#00f7ff" stop-opacity="0.78" />
+                <stop offset="45%" stop-color="#00b4b4" stop-opacity="0.48" />
+                <stop offset="80%" stop-color="#05445e" stop-opacity="0.18" />
+                <stop offset="100%" stop-color="#06142e" stop-opacity="0" />
+              </radialGradient>
 
-        <!-- the peacock feather covers the whole screen, then flies away backward -->
-        <div class="cover" id="cover">
-            <svg class="cover-feather" id="coverFeather" viewBox="0 0 400 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+              <!-- Golden-Bronze Outer Eye Ring -->
+              <linearGradient id="exactGoldRing" x1="15%" y1="10%" x2="85%" y2="90%">
+                <stop offset="0%" stop-color="#fae588" />
+                <stop offset="35%" stop-color="#e8b84b" />
+                <stop offset="70%" stop-color="#c28322" />
+                <stop offset="100%" stop-color="#7c4d10" />
+              </linearGradient>
+
+              <!-- Rich Emerald Sheen Ring -->
+              <radialGradient id="exactEmeraldSheen" cx="50%" cy="42%" r="52%">
+                <stop offset="0%" stop-color="#38f9d7" stop-opacity="0.95" />
+                <stop offset="65%" stop-color="#00a896" stop-opacity="0.88" />
+                <stop offset="100%" stop-color="#026773" stop-opacity="0.95" />
+              </radialGradient>
+
+              <!-- Bright Turquoise Eye Ring -->
+              <linearGradient id="exactTurquoise" x1="20%" y1="0%" x2="80%" y2="100%">
+                <stop offset="0%" stop-color="#72efdd" />
+                <stop offset="50%" stop-color="#00b4d8" />
+                <stop offset="100%" stop-color="#0077b6" />
+              </linearGradient>
+
+              <!-- Deep Navy Heart-Bean Center Eye -->
+              <linearGradient id="exactNavyCore" x1="30%" y1="10%" x2="70%" y2="90%">
+                <stop offset="0%" stop-color="#184578" />
+                <stop offset="45%" stop-color="#0b1f40" />
+                <stop offset="100%" stop-color="#050d20" />
+              </linearGradient>
+
+              <!-- Cyan-Gold Barb Gradient -->
+              <linearGradient id="exactBarbGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+                <stop offset="0%" stop-color="#64dfdf" />
+                <stop offset="38%" stop-color="#2ec4b6" />
+                <stop offset="78%" stop-color="#d4a238" />
+                <stop offset="100%" stop-color="#0b1f40" stop-opacity="0" />
+              </linearGradient>
+
+              <!-- Fine Iridescent Secondary Barb Gradient -->
+              <linearGradient id="fineBarbGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#80ffdb" stop-opacity="0.9" />
+                <stop offset="55%" stop-color="#00bbf9" stop-opacity="0.75" />
+                <stop offset="90%" stop-color="#f3cf68" stop-opacity="0.6" />
+                <stop offset="100%" stop-color="#0b1f40" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+
+            <!-- Tilted Flame-Shaped Group matching the exact angle on Krishna's Crown -->
+            <g transform="rotate(-11 115 155)">
+              <!-- Ambient Cyan Glow -->
+              <ellipse cx="110" cy="145" rx="84" ry="114" fill="url(#exactCyanAura)" />
+
+              <!-- LAYER A: Deep Background Fine Feather Barbs for Rich Volume -->
+              <g stroke="url(#fineBarbGrad)" stroke-linecap="round" opacity="0.68">
+                <path d="M106 72 C 100 44, 98 24, 105 10" stroke-width="1.1" />
+                <path d="M112 70 C 114 42, 118 24, 126 15" stroke-width="1.1" />
+                <path d="M101 78 C 90 50, 88 30, 94 16" stroke-width="1.1" />
+                <path d="M118 78 C 126 50, 134 34, 144 26" stroke-width="1.1" />
+
+                <path d="M112 232 C 74 210, 54 182, 46 152" stroke-width="1.15" />
+                <path d="M112 222 C 68 198, 46 166, 44 132" stroke-width="1.2" />
+                <path d="M111 210 C 64 182, 42 146, 46 112" stroke-width="1.2" />
+                <path d="M109 196 C 60 164, 44 126, 52 90" stroke-width="1.2" />
+                <path d="M107 180 C 62 146, 50 106, 62 70" stroke-width="1.15" />
+                <path d="M106 164 C 66 126, 58 86, 74 52" stroke-width="1.15" />
+                <path d="M105 148 C 72 110, 68 72, 86 38" stroke-width="1.1" />
+
+                <path d="M114 232 C 148 210, 166 182, 170 152" stroke-width="1.15" />
+                <path d="M114 220 C 154 196, 172 166, 172 132" stroke-width="1.2" />
+                <path d="M114 206 C 158 178, 174 144, 168 110" stroke-width="1.2" />
+                <path d="M114 190 C 158 158, 170 124, 162 90" stroke-width="1.2" />
+                <path d="M113 174 C 154 140, 164 104, 152 72" stroke-width="1.15" />
+                <path d="M111 158 C 146 122, 152 86, 138 56" stroke-width="1.15" />
+                <path d="M110 142 C 138 106, 142 72, 128 42" stroke-width="1.1" />
+              </g>
+
+              <!-- LAYER B: Primary Outer Curved Barbs -->
+              <g stroke="url(#exactBarbGrad)" stroke-linecap="round">
+                <path d="M104 68 C 96 42, 95 24, 102 12" stroke-width="1.8" />
+                <path d="M110 65 C 108 38, 112 22, 120 14" stroke-width="1.6" />
+                <path d="M98 76 C 84 48, 82 32, 88 20" stroke-width="1.7" />
+                <path d="M116 74 C 122 46, 130 34, 138 28" stroke-width="1.5" />
+
+                <path d="M112 228 C 72 205, 52 175, 48 142" stroke-width="1.7" />
+                <path d="M112 216 C 66 190, 44 156, 44 122" stroke-width="1.8" />
+                <path d="M110 202 C 62 172, 42 136, 48 100" stroke-width="1.8" />
+                <path d="M108 188 C 60 154, 46 116, 56 80" stroke-width="1.8" />
+                <path d="M106 172 C 64 136, 54 96, 68 62" stroke-width="1.7" />
+                <path d="M105 156 C 70 118, 64 78, 80 44" stroke-width="1.6" />
+                <path d="M78 214 C 52 192, 38 166, 36 142" stroke-width="1.45" opacity="0.88" />
+                <path d="M88 228 C 62 212, 46 190, 42 168" stroke-width="1.4" opacity="0.82" />
+                <path d="M96 238 C 72 226, 56 208, 50 190" stroke-width="1.25" opacity="0.72" />
+
+                <path d="M114 228 C 150 205, 166 175, 168 144" stroke-width="1.7" />
+                <path d="M114 214 C 156 188, 172 156, 170 122" stroke-width="1.8" />
+                <path d="M114 198 C 158 168, 174 134, 166 100" stroke-width="1.8" />
+                <path d="M114 182 C 156 150, 168 114, 158 82" stroke-width="1.7" />
+                <path d="M112 166 C 150 132, 158 96, 146 64" stroke-width="1.6" />
+                <path d="M110 150 C 142 114, 146 78, 132 48" stroke-width="1.5" />
+                <path d="M142 212 C 166 190, 178 164, 178 136" stroke-width="1.45" opacity="0.88" />
+                <path d="M132 226 C 156 208, 170 186, 174 162" stroke-width="1.3" opacity="0.76" />
+              </g>
+
+              <!-- LAYER C: Golden-Green Inner Frond Shimmer Highlights -->
+              <g stroke="#f3cf68" stroke-width="1.15" stroke-linecap="round" opacity="0.85">
+                <path d="M110 218 C 70 185, 54 146, 58 108" />
+                <path d="M108 190 C 70 152, 60 110, 72 72" />
+                <path d="M106 160 C 78 118, 76 76, 92 40" />
+                <path d="M114 218 C 150 185, 164 146, 158 108" />
+                <path d="M114 190 C 148 152, 156 110, 142 74" />
+                <path d="M112 160 C 138 118, 138 78, 122 44" />
+              </g>
+
+              <!-- LAYER D: Realistic Multi-Ring Peacock Eye (Ocellus) -->
+              <path d="M108 86 C 146 86, 163 130, 152 174 C 143 206, 126 225, 112 229 C 96 225, 77 206, 68 174 C 57 130, 72 86, 108 86 Z"
+                    fill="url(#exactEmeraldSheen)" opacity="0.55" />
+
+              <path d="M108 92 C 142 92, 158 132, 148 172 C 140 202, 124 220, 112 224 C 98 220, 80 202, 72 172 C 62 132, 76 92, 108 92 Z"
+                    fill="url(#exactGoldRing)" opacity="0.96" />
+
+              <path d="M108 92 C 142 92, 158 132, 148 172 C 140 202, 124 220, 112 224 C 98 220, 80 202, 72 172 C 62 132, 76 92, 108 92 Z"
+                    stroke="#fff3b0" stroke-width="0.9" opacity="0.65" />
+
+              <path d="M109 108 C 135 108, 148 138, 140 168 C 133 192, 121 206, 112 210 C 102 206, 89 192, 82 168 C 74 138, 85 108, 109 108 Z"
+                    fill="url(#exactTurquoise)" />
+
+              <path d="M100 144 C 108 142, 114 150, 120 146 C 128 140, 136 154, 132 172 C 128 188, 119 198, 112 200 C 104 198, 93 186, 90 168 C 87 152, 92 146, 100 144 Z"
+                    fill="url(#exactNavyCore)" />
+
+              <ellipse cx="101" cy="156" rx="3.2" ry="6.5" transform="rotate(-14 101 156)" fill="#72efdd" opacity="0.35" />
+
+              <!-- LAYER E: Curved Golden Quill / Shaft going down-right to Krishna's Crown -->
+              <path d="M111 176 C 113 212, 122 248, 136 286" stroke="url(#exactGoldRing)" stroke-width="3.3" stroke-linecap="round" />
+              <path d="M111 182 C 113 214, 122 248, 136 286" stroke="#fff3c4" stroke-width="1.15" stroke-linecap="round" opacity="0.85" />
+            </g>
+          </svg>
+
         </div>
+      </div>
+
+      <!-- LAYER 7: Wind Gust & Floating Sparkles Canvas -->
+      <canvas id="windCanvas"></canvas>
+
     </div>
+  </main>
 
-    <script>
-        // The peacock feather drawn in code: green barbs on both sides of the spine, and the gold eye
-        const NS = "http://www.w3.org/2000/svg";
-        const make = (tag, attrs, parent) => {
-            const node = document.createElementNS(NS, tag);
-            for (const k in attrs) node.setAttribute(k, attrs[k]);
-            if (parent) parent.appendChild(node);
-            return node;
-        };
+  <!-- GSAP & MotionPathPlugin CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
 
-        function buildFeather(svg) {
-            const defs = make("defs", {}, svg);
-            const gold = make("linearGradient", { id: "eyeGold", x1: "0", y1: "0", x2: "1", y2: "1" }, defs);
-            make("stop", { offset: "0", "stop-color": "#fbe7a1" }, gold);
-            make("stop", { offset: "0.6", "stop-color": "#c9923a" }, gold);
-            make("stop", { offset: "1", "stop-color": "#6b4a1a" }, gold);
+  <script>
+    gsap.registerPlugin(MotionPathPlugin);
 
-            // the spine, from the bottom left up to the eye
-            const P0 = [30, 585], P1 = [170, 340], P2 = [272, 52];
-            const at = (s) => {
-                const a = (1 - s) * (1 - s), b = 2 * (1 - s) * s, c = s * s;
-                return [a * P0[0] + b * P1[0] + c * P2[0], a * P0[1] + b * P1[1] + c * P2[1]];
-            };
-            const dir = (s) => {
-                const dx = 2 * (1 - s) * (P1[0] - P0[0]) + 2 * s * (P2[0] - P1[0]);
-                const dy = 2 * (1 - s) * (P1[1] - P0[1]) + 2 * s * (P2[1] - P1[1]);
-                const L = Math.hypot(dx, dy);
-                return [dx / L, dy / L];
-            };
-            make("path", { d: `M${P0[0]} ${P0[1]} Q${P1[0]} ${P1[1]} ${P2[0]} ${P2[1]}`, fill: "none", stroke: "#c9a24a", "stroke-width": 3, "stroke-linecap": "round" }, svg);
+    // =========================================================================
+    // 1. GOLDEN WIND PARTICLES & BREEZE STREAKS ON CANVAS
+    // =========================================================================
+    const canvas = document.getElementById('windCanvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let windPower = 0;
 
-            // the barbs on both sides, in peacock greens
-            const greens = ["#0d6b5c", "#14806d", "#1fa58a", "#0a4a46", "#5fd0a6", "#2c9c8e", "#0f5f63", "#3ec7b0"];
-            const BARBS = 150;
-            for (let i = 0; i < BARBS; i++) {
-                const s = 0.05 + (i / (BARBS - 1)) * 0.9;
-                const [x, y] = at(s);
-                const [tx, ty] = dir(s);
-                const nx = -ty, ny = tx;
-                const L = 70 + 120 * Math.sin(Math.PI * s) + Math.random() * 30;
-                for (const side of [-1, 1]) {
-                    const ex = x + side * nx * L + tx * L * 0.6;
-                    const ey = y + side * ny * L + ty * L * 0.6;
-                    const cx = x + side * nx * L * 0.45 + tx * L * 0.2;
-                    const cy = y + side * ny * L * 0.45 + ty * L * 0.2;
-                    make("path", {
-                        d: `M${x.toFixed(1)} ${y.toFixed(1)} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`,
-                        fill: "none",
-                        stroke: greens[Math.floor(Math.random() * greens.length)],
-                        "stroke-width": (2.6 - 1.2 * s).toFixed(2),
-                        "stroke-linecap": "round",
-                        opacity: 0.92
-                    }, svg);
-                }
-            }
+    function resizeCanvas() {
+      const board = document.getElementById('artboard');
+      width = canvas.width = board.clientWidth;
+      height = canvas.height = board.clientHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
 
-            // the eye: gold ring, teal ring, navy pupil, and a small highlight
-            const eye = make("g", { transform: "rotate(-18 246 118)" }, svg);
-            make("ellipse", { cx: 246, cy: 118, rx: 78, ry: 100, fill: "url(#eyeGold)", stroke: "#6b4a1a", "stroke-width": 3 }, eye);
-            make("ellipse", { cx: 246, cy: 120, rx: 52, ry: 68, fill: "#1fa7b8" }, eye);
-            make("ellipse", { cx: 252, cy: 122, rx: 30, ry: 40, fill: "#17215c" }, eye);
-            make("ellipse", { cx: 238, cy: 104, rx: 7, ry: 5, fill: "#ffffff", opacity: 0.55 }, eye);
-        }
-        buildFeather(document.getElementById("coverFeather"));
+    const dustParticles = Array.from({ length: 55 }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      r: Math.random() * 1.8 + 0.6,
+      vx: Math.random() * 0.5 + 0.2,
+      vy: (Math.random() - 0.5) * 0.35,
+      alpha: Math.random() * 0.75 + 0.2,
+      phase: Math.random() * Math.PI * 2
+    }));
 
-        // The meadow of petals and wind streaks, in warm beige-friendly colours
-        const COLORS = ["#c9691a", "#b8500f", "#c94f6d", "#d9a441", "#e8a03a"];
-        const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+    const windLines = Array.from({ length: 16 }, () => ({
+      x: Math.random() * width - width,
+      y: Math.random() * height,
+      len: Math.random() * 220 + 110,
+      speed: Math.random() * 15 + 10,
+      curve: (Math.random() - 0.5) * 40,
+      alpha: Math.random() * 0.35 + 0.12
+    }));
 
-        const petalsBox = document.getElementById("petals");
-        for (let i = 0; i < 18; i++) {
-            const p = document.createElement("span");
-            p.className = "petal";
-            const size = 12 + Math.random() * 14;
-            p.style.width = size + "px";
-            p.style.height = size * 1.3 + "px";
-            p.style.left = Math.random() * 100 + "vw";
-            p.style.background = `linear-gradient(135deg, ${pick(COLORS)}, rgba(255, 248, 230, 0.35))`;
-            p.style.setProperty("--dx", (Math.random() * 16 - 8) + "vw");
-            p.style.animationDuration = 10 + Math.random() * 10 + "s";
-            p.style.animationDelay = -Math.random() * 20 + "s";
-            petalsBox.appendChild(p);
-        }
+    function animateCanvas() {
+      ctx.clearRect(0, 0, width, height);
 
-        const windBox = document.getElementById("winds");
-        for (let i = 0; i < 14; i++) {
-            const w = document.createElement("span");
-            w.className = "wind";
-            w.style.top = 8 + Math.random() * 70 + "vh";
-            w.style.width = 120 + Math.random() * 220 + "px";
-            w.style.animationDuration = 3 + Math.random() * 4 + "s";
-            w.style.animationDelay = -Math.random() * 7 + "s";
-            windBox.appendChild(w);
-        }
+      // Floating Golden Sparkles
+      dustParticles.forEach(p => {
+        p.phase += 0.03;
+        p.x += p.vx + windPower * 11;
+        p.y += p.vy - windPower * 2 + Math.sin(p.phase) * 0.25;
 
-        // The name on three left-aligned lines, one letter per span so each can turn into view
-        const line = document.getElementById("say-line");
-        const message = "Jai Shree Radhekrishna";
-        line.textContent = "";
-        const letters = [];
-        message.split(" ").forEach((word) => {
-            const lineSpan = document.createElement("span");
-            lineSpan.className = "line";
-            for (const ch of word) {
-                const letter = document.createElement("span");
-                letter.className = "letter";
-                letter.textContent = ch;
-                lineSpan.appendChild(letter);
-                letters.push(letter);
-            }
-            line.appendChild(lineSpan);
+        if (p.x > width + 15) p.x = -15;
+        if (p.y < -15) p.y = height + 15;
+        if (p.y > height + 15) p.y = -15;
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(250, 226, 156, ${p.alpha * (0.5 + 0.5 * Math.sin(p.phase))})`;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = '#f5d061';
+        ctx.fill();
+        ctx.restore();
+      });
+
+      // Wind Gust Lines during Morpankh Flight
+      if (windPower > 0.02) {
+        windLines.forEach(w => {
+          w.x += w.speed * (0.4 + windPower * 1.6);
+          w.y -= windPower * 1.5;
+          if (w.x > width + w.len) {
+            w.x = -w.len - Math.random() * 160;
+            w.y = Math.random() * height;
+          }
+
+          const grad = ctx.createLinearGradient(w.x, w.y, w.x + w.len, w.y + w.curve);
+          grad.addColorStop(0, 'rgba(250, 226, 156, 0)');
+          grad.addColorStop(0.5, `rgba(0, 245, 212, ${w.alpha * windPower})`);
+          grad.addColorStop(0.85, `rgba(250, 226, 156, ${w.alpha * windPower})`);
+          grad.addColorStop(1, 'rgba(250, 226, 156, 0)');
+
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(w.x, w.y);
+          ctx.quadraticCurveTo(w.x + w.len * 0.5, w.y + w.curve, w.x + w.len, w.y - w.curve * 0.35);
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 1.4;
+          ctx.stroke();
+          ctx.restore();
         });
-        line.setAttribute("aria-label", message);
+      }
 
-        // the sequence: the feather covers everything, flies away backward, and the letters turn into view
-        function startSequence() {
-            const cover = document.getElementById("cover");
-            const lotus = document.getElementById("lotus");
-            setTimeout(() => cover.classList.add("fly"), 1800);       // the feather flies away backward in 3D
-            setTimeout(() => {                                        // the letters turn into view as it recedes
-                letters.forEach((letter, i) => {
-                    letter.style.animationDelay = (i * 70) + "ms";
-                    letter.classList.add("on");
-                });
-            }, 2600);
-            setTimeout(() => cover.classList.add("gone"), 3900);      // the feather is out of the way
-            setTimeout(() => lotus.classList.add("open"), 4600);      // a lotus opens below the name
+      requestAnimationFrame(animateCanvas);
+    }
+    animateCanvas();
+
+    // =========================================================================
+    // 2. MORPANKH REVERSE-ANCHOR FULL-SCREEN TO KRISHNA'S CROWN ANIMATION
+    // =========================================================================
+    const morpankhAnchor = document.getElementById('morpankhAnchor');
+    const morpankhVector = document.getElementById('morpankhVector');
+    const morpankhHalo = document.getElementById('morpankhHalo');
+    const titleShimmer = document.getElementById('titleShimmer');
+    const displacement = document.getElementById('displacement');
+
+    let tl;
+    let idleCrownTween;
+    let idleGlowTween;
+
+    function runMorpankhSequence() {
+      if (tl) tl.kill();
+      if (idleCrownTween) idleCrownTween.kill();
+      if (idleGlowTween) idleGlowTween.kill();
+
+      // Step 1: Reset Morpankh to its exact resting anchor on Krishna's crown (x: 0, y: 0, scale: 1)
+      // to dynamically measure the exact viewport offset across any screen size.
+      gsap.set(morpankhAnchor, {
+        x: 0,
+        y: 0,
+        z: 0,
+        scale: 1,
+        rotationZ: 0,
+        rotationX: 0,
+        rotationY: 0
+      });
+
+      const boardRect = document.getElementById('artboard').getBoundingClientRect();
+      const featherRect = morpankhAnchor.getBoundingClientRect();
+
+      const featherCenterX = featherRect.left + featherRect.width / 2;
+      const featherCenterY = featherRect.top + featherRect.height / 2;
+
+      const screenCenterX = boardRect.left + boardRect.width / 2;
+      const screenCenterY = boardRect.top + boardRect.height / 2;
+
+      // Dynamic Reverse-Anchor Offset: distance from Krishna's crown to viewport center
+      const deltaX = screenCenterX - featherCenterX;
+      const deltaY = screenCenterY - featherCenterY;
+
+      // Full-screen scale so the Morpankh covers the entire viewport at 0.0s
+      const fullScreenScale = Math.max(
+        boardRect.width / featherRect.width,
+        boardRect.height / featherRect.height
+      ) * 1.45;
+
+      tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+
+      // Initial States: Hide Title, Buttons, Navbar, and Radha-Krishna
+      gsap.set(['#sliceNavbar', '#sliceButtons'], { autoAlpha: 0, y: 14 });
+      gsap.set('#sliceTitle', {
+        autoAlpha: 0,
+        y: 22,
+        filter: 'blur(14px) brightness(1.75)'
+      });
+      gsap.set(titleShimmer, { xPercent: -130, autoAlpha: 0.95 });
+      gsap.set('#sliceRK', { autoAlpha: 0, scale: 0.96, filter: 'blur(8px)' });
+      gsap.set(morpankhHalo, { autoAlpha: 0.25, scale: 0.75 });
+      gsap.set(morpankhVector, {
+        autoAlpha: 1,
+        filter: 'url(#wind-ripple) drop-shadow(0 0 8px rgba(0, 245, 212, 0.35))'
+      });
+
+      // Place Morpankh at full-screen center using reverse-anchor offsets
+      gsap.set(morpankhAnchor, {
+        x: deltaX,
+        y: deltaY + 20,
+        z: 180,
+        scale: fullScreenScale,
+        rotationZ: 34,
+        rotationX: 12,
+        rotationY: -14,
+        autoAlpha: 1
+      });
+
+      // 0.0s – 0.85s: Gentle full-screen breathing before wind gust sweeps it back
+      tl.to(morpankhAnchor, {
+        duration: 0.85,
+        scale: fullScreenScale * 0.93,
+        rotationZ: 26,
+        ease: 'sine.inOut'
+      }, 0);
+
+      // 0.6s – 3.5s: Wind Gust turbulence rises and settles
+      tl.to({ p: 0 }, {
+        p: 1,
+        duration: 1.0,
+        ease: 'power2.in',
+        onUpdate: function () {
+          windPower = this.targets()[0].p;
+          displacement.setAttribute('scale', 6 + windPower * 18);
         }
-        (document.fonts ? document.fonts.ready : Promise.resolve()).then(startSequence);
-    </script>
-    <script src="heart.js"></script>
+      }, 0.6);
+
+      tl.to({ p: 1 }, {
+        p: 0,
+        duration: 1.9,
+        ease: 'power3.out',
+        onUpdate: function () {
+          windPower = this.targets()[0].p;
+          displacement.setAttribute('scale', 2 + windPower * 16);
+        }
+      }, 1.6);
+
+      // 0.8s – 3.6s: 3D Backward Flight along curved S-path to x: 0, y: 0, scale: 1 on Krishna's Crown
+      tl.to(morpankhAnchor, {
+        duration: 2.8,
+        motionPath: {
+          path: [
+            { x: deltaX * 0.62 - 90, y: deltaY * 0.45 - 80 },
+            { x: deltaX * 0.22 + 70, y: deltaY * 0.12 - 50 },
+            { x: -14, y: -22 },
+            { x: 0, y: 0 }
+          ],
+          curviness: 1.5
+        },
+        z: 0,
+        scale: 1,
+        rotationZ: 0,
+        ease: 'power3.inOut'
+      }, 0.8);
+
+      // Mid-air 3D pitch & roll in the wind
+      tl.to(morpankhAnchor, {
+        duration: 1.05,
+        rotationY: 32,
+        rotationX: -22,
+        ease: 'sine.inOut'
+      }, 0.9);
+
+      tl.to(morpankhAnchor, {
+        duration: 1.65,
+        rotationY: 0,
+        rotationX: 0,
+        ease: 'power2.out'
+      }, 1.95);
+
+      // =======================================================================
+      // THE REVEAL (1.5s – 3.0s)
+      // =======================================================================
+      // 1.5s – 2.75s: "JAI SHREE RADHEKRISHN" reveals with golden shimmer & blur-to-clear
+      tl.to('#sliceTitle', {
+        duration: 1.25,
+        autoAlpha: 1,
+        y: 0,
+        filter: 'blur(0px) brightness(1)',
+        ease: 'power3.out'
+      }, 1.5);
+
+      tl.to(titleShimmer, {
+        duration: 1.35,
+        xPercent: 140,
+        autoAlpha: 0,
+        ease: 'power2.inOut'
+      }, 1.5);
+
+      // 1.75s – 3.0s: Pill Buttons, Navbar, and Radha-Krishna illustration fade in
+      tl.to('#sliceRK', {
+        duration: 1.25,
+        autoAlpha: 1,
+        scale: 1,
+        filter: 'blur(0px)',
+        ease: 'power2.out'
+      }, 1.75);
+
+      tl.to(['#sliceButtons', '#sliceNavbar'], {
+        duration: 1.05,
+        autoAlpha: 1,
+        y: 0,
+        stagger: 0.15,
+        ease: 'power2.out'
+      }, 1.95);
+
+      // =======================================================================
+      // THE LANDING (3.2s – 4.0s)
+      // =======================================================================
+      // 3.25s – 4.0s: Trigger soft cyan/emerald radial glow + drop-shadow on Krishna's Crown
+      tl.to(morpankhHalo, {
+        duration: 0.75,
+        autoAlpha: 0.95,
+        scale: 1.08,
+        ease: 'back.out(1.6)'
+      }, 3.25);
+
+      tl.to(morpankhVector, {
+        duration: 0.75,
+        filter: 'url(#wind-ripple) drop-shadow(0 0 18px rgba(0, 245, 212, 0.82))',
+        ease: 'power2.out',
+        onComplete: startGentleCrownSway
+      }, 3.25);
+    }
+
+    // Subtle idle breathing / fluttering animation once landed on Krishna's crown
+    function startGentleCrownSway() {
+      idleCrownTween = gsap.to(morpankhAnchor, {
+        rotationZ: 2.2,
+        y: -2,
+        scale: 1.018,
+        duration: 2.6,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
+      });
+
+      idleGlowTween = gsap.to(morpankhHalo, {
+        autoAlpha: 0.65,
+        scale: 0.96,
+        duration: 2.6,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
+      });
+    }
+
+    window.addEventListener('load', runMorpankhSequence);
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+    });
+
+    document.getElementById('replayBtn').addEventListener('click', runMorpankhSequence);
+    document.getElementById('audioBtn').addEventListener('click', runMorpankhSequence);
+  </script>
 </body>
 </html>
