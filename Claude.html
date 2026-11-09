@@ -15,18 +15,10 @@
 </head>
 <body>
 
-  <!-- Wind filter for the feather barbs: fine turbulence displaces the barbs like wind through them -->
-  <svg class="svg-defs" aria-hidden="true" focusable="false">
-    <defs>
-      <filter id="wind-ripple" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
-        <feTurbulence type="fractalNoise" baseFrequency="0.035 0.09" numOctaves="2" seed="8" result="noise" />
-        <feDisplacementMap id="displacement" in="SourceGraphic" in2="noise" scale="0.45" xChannelSelector="R" yChannelSelector="G" />
-      </filter>
-    </defs>
-  </svg>
-
   <div class="viewport">
     <main class="stage" id="stage">
+      <div class="aura" aria-hidden="true"></div>
+      <div class="lotus-halo" aria-hidden="true"></div>
 
       <!-- Golden waves, ornaments and sparkles (positions measured from the reference) -->
       <svg class="decor" viewBox="0 0 1920 1080" preserveAspectRatio="none" aria-hidden="true" focusable="false">
@@ -68,7 +60,7 @@
         </g>
 
         <!-- Sparkles left of the artwork (the artwork image carries its own sparkles on the right) -->
-        <g fill="#e8c878" opacity="0.85">
+        <g class="sparkles" fill="#e8c878" opacity="0.85">
           <path d="M249 332 L252 342 L262 345 L252 348 L249 358 L246 348 L236 345 L246 342 Z" />
           <path d="M159 950 L162 960 L172 963 L162 966 L159 976 L156 966 L146 963 L156 960 Z" />
           <path d="M148 638 L150 644 L156 646 L150 648 L148 654 L146 648 L140 646 L146 644 Z" />
@@ -76,10 +68,22 @@
           <path d="M524 218 L526 223 L531 225 L526 227 L524 232 L522 227 L517 225 L522 223 Z" />
           <path d="M824 932 L826 937 L831 939 L826 941 L824 946 L822 941 L817 939 L822 937 Z" />
         </g>
-
-        <!-- Silver four-pointed star, bottom right -->
-        <path d="M1840 968 C 1848 992, 1854 998, 1878 1006 C 1854 1014, 1848 1020, 1840 1044 C 1832 1020, 1826 1014, 1802 1006 C 1826 998, 1832 992, 1840 968 Z"
-              fill="#9aa5b8" opacity="0.75" />
+        <g class="motes" fill="#f1d58f">
+          <circle class="mote" cx="120" cy="180" r="1.6" style="--d:-0.0s; --t:9.0s; --dx:6px" />
+          <circle class="mote" cx="260" cy="640" r="2.1" style="--d:-0.8s; --t:10.2s; --dx:-12px" />
+          <circle class="mote" cx="410" cy="310" r="2.6" style="--d:-1.6s; --t:11.4s; --dx:18px" />
+          <circle class="mote" cx="560" cy="880" r="1.6" style="--d:-2.4s; --t:12.6s; --dx:-6px" />
+          <circle class="mote" cx="705" cy="140" r="2.1" style="--d:-3.2s; --t:9.0s; --dx:12px" />
+          <circle class="mote" cx="840" cy="520" r="2.6" style="--d:-4.0s; --t:10.2s; --dx:-18px" />
+          <circle class="mote" cx="980" cy="260" r="1.6" style="--d:-4.8s; --t:11.4s; --dx:6px" />
+          <circle class="mote" cx="1120" cy="760" r="2.1" style="--d:-5.6s; --t:12.6s; --dx:-12px" />
+          <circle class="mote" cx="1260" cy="120" r="2.6" style="--d:-6.4s; --t:9.0s; --dx:18px" />
+          <circle class="mote" cx="1395" cy="470" r="1.6" style="--d:-7.2s; --t:10.2s; --dx:-6px" />
+          <circle class="mote" cx="1530" cy="900" r="2.1" style="--d:-8.0s; --t:11.4s; --dx:12px" />
+          <circle class="mote" cx="1660" cy="210" r="2.6" style="--d:-8.8s; --t:12.6s; --dx:-18px" />
+          <circle class="mote" cx="1790" cy="600" r="1.6" style="--d:-9.6s; --t:9.0s; --dx:6px" />
+          <circle class="mote" cx="1875" cy="930" r="2.1" style="--d:-10.4s; --t:10.2s; --dx:-12px" />
+        </g>
       </svg>
 
       <!-- Teal cover that the feather uncovers at the start -->
@@ -176,7 +180,53 @@
              a transparent PNG or WebP of the same size (1125 x 1160 px), or
              change the src below. Keep the same class so the reveal still works.
              ===================================================== -->
-        <img class="art" id="art" src="Claude.png" width="1125" height="1160" alt="" />
+        <div class="art-stage" id="artStage">
+          <img class="art" id="art" src="Claude.png" width="1125" height="1160" alt="" />
+
+          <!-- Glow that runs along the lines: gold on Radha, blue on Krishna.
+               radha-mask.png and krishna-mask.png hold the artwork's own line pixels, split by colour. -->
+          <svg class="figure-glow" id="figureGlow" viewBox="0 0 1125 1160" aria-hidden="true" focusable="false">
+            <defs>
+              <mask id="maskRadha" maskUnits="userSpaceOnUse" x="0" y="0" width="1125" height="1160">
+                <image href="radha-mask.png" x="0" y="0" width="1125" height="1160" preserveAspectRatio="none" />
+              </mask>
+              <mask id="maskKrishna" maskUnits="userSpaceOnUse" x="0" y="0" width="1125" height="1160">
+                <image href="krishna-mask.png" x="0" y="0" width="1125" height="1160" preserveAspectRatio="none" />
+              </mask>
+              <linearGradient id="bandGold" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="600" y2="600" spreadMethod="repeat" gradientTransform="translate(0 0)">
+                <stop offset="0" stop-color="#ffd27a" stop-opacity="0" />
+                <stop offset="0.42" stop-color="#ffd27a" stop-opacity="0" />
+                <stop offset="0.5" stop-color="#fff3c8" stop-opacity="1" />
+                <stop offset="0.58" stop-color="#ffd27a" stop-opacity="0" />
+                <stop offset="1" stop-color="#ffd27a" stop-opacity="0" />
+                <animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="600 600" dur="4.2s" repeatCount="indefinite" />
+              </linearGradient>
+              <linearGradient id="bandBlue" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="600" y2="600" spreadMethod="repeat" gradientTransform="translate(0 0)">
+                <stop offset="0" stop-color="#7fc4ff" stop-opacity="0" />
+                <stop offset="0.42" stop-color="#7fc4ff" stop-opacity="0" />
+                <stop offset="0.5" stop-color="#eaf7ff" stop-opacity="1" />
+                <stop offset="0.58" stop-color="#7fc4ff" stop-opacity="0" />
+                <stop offset="1" stop-color="#7fc4ff" stop-opacity="0" />
+                <animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="600 600" dur="4.2s" begin="-2.1s" repeatCount="indefinite" />
+              </linearGradient>
+              <filter id="glowBloom" x="-6%" y="-6%" width="112%" height="112%" color-interpolation-filters="sRGB">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="bloom" />
+                <feMerge>
+                  <feMergeNode in="bloom" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <g filter="url(#glowBloom)">
+              <!-- a steady warm halo on each figure -->
+              <g mask="url(#maskRadha)"><rect width="1125" height="1160" fill="#ffd27a" fill-opacity="0.2" /></g>
+              <g mask="url(#maskKrishna)"><rect width="1125" height="1160" fill="#7fc4ff" fill-opacity="0.2" /></g>
+              <!-- the light that travels along the lines -->
+              <g class="band" mask="url(#maskRadha)"><rect width="1125" height="1160" fill="url(#bandGold)" /></g>
+              <g class="band" mask="url(#maskKrishna)"><rect width="1125" height="1160" fill="url(#bandBlue)" /></g>
+            </g>
+          </svg>
+        </div>
 
         <!-- =====================================================
              PEACOCK FEATHER (Morpankh)
@@ -186,14 +236,19 @@
              ===================================================== -->
         <div class="feather" id="feather" aria-hidden="true">
           <div class="feather-glow" id="featherGlow"></div>
-          <svg id="featherSvg" viewBox="0 0 133 213" focusable="false"></svg>
+          <svg id="featherSvg" viewBox="0 0 133 213" focusable="false"><defs>
+<linearGradient id="fBarb" x1="0" y1="0" x2="0" y2="213" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2ff2e2"/><stop offset="0.55" stop-color="#1ed0c8"/><stop offset="1" stop-color="#0e9aa6"/></linearGradient>
+<linearGradient id="fBarbHi" x1="0" y1="0" x2="0" y2="213" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#b8fff8"/><stop offset="1" stop-color="#5ff6e8"/></linearGradient>
+<linearGradient id="fTan" x1="0" y1="120" x2="133" y2="213" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#e8cd8c"/><stop offset="1" stop-color="#a88548"/></linearGradient>
+<radialGradient id="fInner" cx="0.5" cy="0.35" r="0.6"><stop offset="0" stop-color="#a6d4b8"/><stop offset="0.6" stop-color="#6e9c8a"/><stop offset="1" stop-color="#557f72"/></radialGradient>
+<linearGradient id="fGold" x1="0" y1="70" x2="0" y2="170" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fdeca2"/><stop offset="0.5" stop-color="#e2b466"/><stop offset="1" stop-color="#b98a46"/></linearGradient>
+<linearGradient id="fGoldHi" x1="0" y1="70" x2="0" y2="120" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff8c8"/><stop offset="1" stop-color="#fbe49a"/></linearGradient>
+<linearGradient id="fRing" x1="0" y1="95" x2="0" y2="150" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7ffaf7"/><stop offset="1" stop-color="#14c4d8"/></linearGradient>
+</defs><path fill="url(#fTan)" fill-rule="evenodd" d="M84.25 198.10 84.13 198.88 84.93 199.99 86.86 201.42 87.43 201.63 87.83 201.55 87.96 201.17 87.73 200.49 86.44 198.81 85.14 197.95 84.58 197.91ZM95.30 197.03 94.80 197.28 94.48 198.13 93.97 202.09 94.20 202.71 94.62 202.20 95.70 198.38 95.69 197.46ZM58.29 186.69 58.80 187.19 60.13 187.82 65.12 189.34 66.32 189.43 66.86 188.93 66.80 188.56 66.42 188.13 65.12 187.57 58.70 186.57ZM53.22 185.92 54.50 186.29 56.40 186.27 54.63 185.81 53.59 185.77ZM93.54 184.04 93.03 184.27 92.60 184.89 91.99 187.00 91.63 192.25 91.75 193.30 92.10 193.71 92.59 193.39 93.03 192.37 94.13 186.50 94.12 184.77 93.90 184.27ZM67.32 181.76 67.40 182.01 67.79 182.25 68.51 182.23 68.08 181.76ZM116.24 162.92 115.80 162.95 114.87 163.54 112.73 165.63 110.24 168.74 109.99 169.43 110.15 169.90 110.67 169.94 111.33 169.53 114.06 166.50 115.93 164.01 116.26 163.33ZM104.39 160.92 104.07 160.97 103.51 161.44 101.23 164.37 100.48 165.85 100.46 166.35 100.63 166.59 101.34 166.42 102.19 165.49 104.21 162.01 104.46 161.33Z"/><path fill="url(#fBarb)" fill-rule="evenodd" d="M82.12 77.04 81.13 77.50 80.07 78.26 79.64 78.90 79.64 79.45 80.29 80.23 81.75 81.10 82.75 81.46 83.59 81.41 84.11 81.09 84.52 80.48 84.64 79.75 84.48 78.88 84.03 77.91 83.51 77.31 82.85 76.99ZM27.91 5.56 27.56 6.07 27.65 6.88 30.18 12.88 31.54 16.88 32.63 20.62 33.70 25.50 34.46 30.25 34.71 33.38 34.60 41.00 33.97 46.25 33.62 47.27 33.15 47.59 32.70 47.17 32.41 46.25 31.06 38.00 30.48 35.50 28.68 31.04 28.16 30.46 27.67 30.46 27.38 30.93 27.35 31.63 28.45 36.12 29.35 45.50 29.20 50.00 28.66 55.75 27.40 61.75 24.57 71.25 22.55 77.12 22.09 78.02 21.69 78.34 21.33 77.92 21.28 76.50 22.82 64.75 23.00 61.88 22.96 56.25 22.66 53.75 22.19 52.00 21.11 49.88 20.42 48.02 20.06 47.75 19.75 48.11 20.37 52.25 20.36 58.50 19.93 64.25 18.49 73.38 15.02 89.88 14.57 94.50 14.40 98.38 14.85 104.00 15.93 109.25 17.14 113.12 20.62 121.97 21.52 122.92 23.12 123.99 23.99 124.29 24.66 124.17 25.39 123.23 26.28 120.27 28.59 117.62 29.24 115.88 30.15 111.38 31.09 108.12 31.93 102.88 34.04 96.38 36.26 91.12 37.70 88.38 40.48 84.00 42.71 81.00 43.17 80.00 43.10 79.29 42.66 78.67 39.75 76.61 38.29 75.12 37.41 73.62 37.09 72.12 37.36 70.50 38.29 68.88 39.63 67.47 42.38 65.34 42.68 64.78 42.19 64.61 40.87 64.74 38.13 65.78 37.15 65.83 36.62 65.56 36.16 64.97 35.68 63.00 35.77 61.62 36.98 56.25 38.49 46.50 38.85 43.25 39.08 36.63 39.43 35.61 40.05 35.26 40.60 35.45 41.26 36.03 44.79 40.38 47.38 43.12 50.50 45.95 53.50 48.38 60.00 53.10 69.75 59.68 74.75 63.33 80.00 65.88 82.73 67.81 84.23 69.63 85.38 72.25 86.12 73.37 91.80 79.38 100.04 89.88 103.50 93.75 105.95 97.38 107.70 101.88 108.97 106.38 109.41 111.25 109.80 113.62 111.39 117.38 111.36 120.50 110.36 126.75 107.97 134.50 106.30 138.62 104.08 143.38 101.98 147.50 96.99 155.50 91.78 165.00 89.90 170.12 88.17 176.12 87.11 183.37 86.28 184.70 85.73 185.02 85.12 185.11 84.12 184.83 82.88 184.04 75.75 177.80 72.50 175.21 69.88 173.44 62.25 168.96 52.00 164.07 43.88 159.55 39.38 156.73 36.38 154.47 33.76 152.23 30.81 149.00 28.70 146.38 24.17 139.75 21.00 134.50 15.90 123.38 14.27 118.75 13.26 114.88 11.39 105.50 10.55 96.75 9.88 86.50 9.02 79.25 8.48 77.29 8.11 76.80 7.64 76.59 7.29 76.68 6.96 77.07 6.75 78.50 6.89 87.88 7.35 95.88 8.05 102.75 8.97 109.12 10.09 114.50 11.50 119.75 13.17 124.50 15.08 129.25 17.21 133.75 19.88 138.75 23.15 143.88 27.69 150.12 30.10 153.00 34.29 157.39 34.70 158.03 34.67 158.37 33.74 158.25 31.75 157.04 24.50 151.61 19.06 145.88 14.85 140.62 11.93 136.25 9.13 131.25 5.42 123.00 3.51 118.12 2.65 114.90 2.28 114.29 1.80 114.07 1.50 114.22 1.26 114.67 1.24 116.00 3.14 123.25 5.26 128.50 7.68 133.38 10.25 137.62 13.37 142.00 15.57 144.75 18.38 147.75 27.38 156.06 33.38 160.42 39.88 164.45 47.62 168.51 64.75 176.53 73.12 181.07 79.50 185.67 86.37 191.76 87.12 192.19 87.80 192.24 88.32 191.87 88.61 191.23 89.18 186.12 91.11 178.88 93.73 172.25 95.65 168.38 99.28 162.25 107.95 149.50 114.74 138.00 117.08 133.50 118.84 129.38 120.73 124.25 122.77 115.38 123.23 110.88 123.37 107.00 123.35 102.50 122.79 95.62 120.73 86.50 120.38 85.66 119.91 85.10 119.46 84.95 119.09 85.17 118.84 85.89 118.84 86.88 120.27 95.12 120.62 102.38 120.61 106.50 120.38 110.12 119.42 116.75 117.66 123.62 116.31 127.62 114.72 131.62 112.75 135.88 110.57 139.87 109.87 140.91 109.27 141.26 109.14 140.91 109.28 140.24 110.74 136.50 112.77 130.00 113.99 122.38 114.62 111.62 114.27 104.75 112.54 93.38 110.72 86.12 108.95 80.62 106.81 75.00 104.96 71.00 99.82 61.50 92.72 50.40 91.97 49.69 91.32 49.68 91.06 50.07 91.02 50.76 91.63 52.50 100.14 67.12 102.70 72.00 105.00 77.12 106.74 82.00 108.57 88.25 109.33 92.37 109.31 93.57 109.02 94.07 108.39 93.77 107.49 92.37 102.25 81.12 100.35 77.50 98.03 73.62 95.60 70.12 91.89 65.50 88.35 61.63 80.25 53.99 73.46 47.00 69.45 42.00 66.38 36.98 65.76 36.57 65.30 36.73 65.09 37.29 65.19 38.25 66.03 40.25 67.95 43.50 72.07 48.88 81.67 59.37 82.83 60.97 82.92 61.68 82.11 61.46 80.50 60.35 67.62 49.90 63.50 46.31 57.28 40.00 53.43 35.50 49.63 30.12 46.50 24.78 45.85 24.12 45.28 23.98 45.01 24.18 44.84 24.66 44.97 26.13 45.61 28.00 46.91 30.75 50.64 36.75 55.21 42.74 55.55 43.40 55.51 43.75 55.16 43.80 54.61 43.56 52.75 42.25 50.50 40.33 48.01 37.87 44.24 33.38 41.07 28.50 38.93 24.38 34.52 14.62 31.66 9.38 29.40 6.29 28.62 5.66Z"/><path fill="url(#fBarbHi)" fill-rule="evenodd" d="M107.69 147.70 107.26 147.91 102.22 154.12 99.12 159.12 95.54 164.38 92.56 170.25 91.52 173.12 91.39 173.92 91.50 174.31 91.75 174.23 92.13 173.71 94.95 168.12 99.26 160.88 104.14 153.88 107.14 149.13ZM121.57 96.22 121.41 96.90 121.62 105.00 121.35 109.88 120.29 116.88 118.86 122.50 117.16 127.75 112.45 139.23 112.29 139.96 112.88 139.34 114.34 137.00 116.84 132.25 119.99 124.12 121.18 119.50 122.22 113.38 122.49 108.25 122.20 99.12 121.94 97.14ZM110.77 91.47 110.73 92.27 112.04 101.50 112.45 107.38 112.83 109.61 113.19 110.40 113.42 109.94 113.51 108.75 113.36 104.25 112.63 100.38 112.19 96.38 111.08 92.15ZM109.87 87.85 109.81 88.39 110.10 89.03 110.15 88.39ZM8.19 84.35 7.90 85.38 7.91 89.62 8.44 97.62 9.49 106.88 11.62 116.88 13.65 122.60 14.06 123.28 14.07 122.60 12.97 118.62 10.76 108.00 9.71 99.12 9.00 88.25 8.58 85.26ZM81.96 57.47 82.71 58.75 88.25 65.12 91.59 69.38 97.36 78.12 102.27 86.74 102.95 87.57 103.48 87.73 103.64 87.31 103.44 86.37 101.52 81.62 98.78 76.38 95.83 71.75 91.91 66.75 88.61 63.13 84.25 59.03 82.66 57.76ZM29.83 8.61 29.62 8.88 29.74 9.63 31.25 13.75 33.06 19.50 34.17 24.25 35.08 29.25 35.50 37.25 34.90 47.62 34.02 55.62 33.20 58.23 32.83 58.80 32.46 58.96 32.11 58.64 31.91 57.75 31.85 53.00 31.40 47.62 31.03 45.69 30.84 45.25 30.69 45.30 29.85 52.75 28.70 60.00 26.89 66.62 21.67 84.00 20.29 89.87 19.88 90.89 19.44 91.21 19.11 90.89 18.92 90.12 18.79 86.00 19.60 79.50 20.47 74.62 21.79 62.62 21.86 58.14 21.69 57.23 21.57 57.42 21.32 62.50 21.00 65.38 19.02 75.62 16.23 88.12 15.58 92.00 15.27 95.50 15.35 101.12 16.41 107.38 18.03 112.62 18.89 114.33 19.58 114.94 19.95 114.72 20.46 112.91 21.48 111.52 21.77 110.74 21.39 104.25 21.46 101.12 22.58 94.25 23.68 89.38 24.74 85.50 28.21 77.25 30.73 70.62 33.75 62.12 35.13 57.38 36.15 53.25 37.38 46.75 38.05 41.00 38.42 34.50 38.68 33.56 39.12 33.07 39.75 33.00 40.49 33.47 42.98 36.88 45.69 40.12 48.38 42.84 51.00 45.11 54.12 47.41 62.75 53.12 68.25 56.20 75.88 61.88 82.75 67.56 86.00 70.41 92.12 76.30 93.44 77.13 93.87 77.11 94.07 76.77 93.64 75.37 91.95 73.00 88.71 69.38 85.38 66.02 75.38 57.24 64.62 48.47 59.75 43.87 53.69 37.12 48.76 30.66 48.10 30.04 47.97 30.20 48.06 30.66 48.83 32.25 52.40 37.75 55.66 41.62 64.27 50.50 65.66 52.37 65.95 53.04 65.89 53.39 65.33 53.37 64.25 52.74 59.12 48.88 52.00 42.81 47.16 38.12 44.44 34.88 41.05 29.88 37.85 23.75 34.69 16.50 32.64 12.38 30.89 9.51 30.33 8.88Z"/><path fill="url(#fInner)" fill-rule="evenodd" d="M55.62 83.13 53.50 84.08 51.38 85.52 48.53 88.03 46.76 90.13 43.30 96.00 41.22 100.88 39.81 105.38 39.15 108.25 37.83 117.00 37.50 121.62 37.52 126.38 37.74 129.12 39.58 137.38 41.78 142.50 43.24 144.88 44.84 147.00 46.94 149.35 48.75 151.04 51.25 152.94 53.62 154.41 58.62 156.61 63.50 158.17 66.00 158.76 70.50 159.34 75.62 159.71 78.12 159.59 80.25 159.14 82.25 158.21 84.62 156.47 86.53 154.62 88.76 151.88 91.32 148.25 93.59 144.50 96.56 137.75 97.49 134.62 98.05 132.00 98.48 125.38 98.03 120.75 96.22 113.38 95.33 111.12 93.08 106.50 91.71 104.12 90.15 101.88 87.46 98.50 83.19 93.88 81.25 91.98 79.00 90.18 75.88 88.02 72.00 85.71 69.88 84.74 66.00 83.32 63.75 82.84 60.25 82.59 57.62 82.73ZM75.25 108.27 79.00 109.84 83.12 112.57 86.51 115.88 88.85 119.25 90.64 123.38 91.65 128.12 91.73 130.12 91.57 132.12 91.17 134.12 90.58 135.88 88.94 138.75 86.57 141.59 84.12 143.65 81.75 144.91 78.88 145.66 74.62 145.96 73.12 146.25 71.62 146.85 68.00 148.83 65.25 149.66 63.62 149.76 62.00 149.61 60.00 149.16 58.12 148.50 54.63 146.49 51.84 143.99 49.53 140.88 48.05 137.38 47.23 133.88 47.08 130.12 47.70 126.25 48.52 123.00 49.23 121.00 51.24 117.25 53.56 114.25 56.88 111.15 60.25 109.01 64.12 107.63 68.12 107.08 71.25 107.29Z"/><path fill="url(#fGold)" fill-rule="evenodd" d="M70.68 190.35 70.82 190.71 71.52 191.22 74.75 192.65 80.50 196.15 81.57 196.62 82.07 196.56 81.97 196.10 81.34 195.37 78.88 193.61 72.25 190.52 71.29 190.24ZM96.12 175.22 95.63 176.24 95.50 177.03 95.88 176.35ZM107.19 173.53 106.19 174.29 104.61 176.25 101.94 180.00 99.78 183.50 98.27 186.38 97.27 189.12 95.85 191.62 95.55 192.99 95.69 194.07 96.08 193.67 98.23 188.50 100.70 184.00 107.12 173.95ZM98.06 171.18 97.71 171.32 97.25 172.02 96.81 173.64 97.25 173.29 97.84 172.38 98.13 171.58ZM54.00 76.38 51.38 77.56 49.25 79.02 46.93 81.25 44.31 84.38 40.30 91.25 36.34 101.12 34.03 109.75 32.80 119.38 32.75 124.88 33.32 132.25 33.86 134.88 35.87 140.75 37.63 144.25 39.65 147.50 41.51 149.88 44.01 152.59 46.00 154.33 48.62 156.23 51.88 158.30 55.75 160.33 59.88 162.14 65.50 164.10 71.75 165.81 73.62 166.15 77.38 166.23 80.00 165.82 82.12 164.95 84.50 163.48 86.50 161.74 88.67 159.38 91.50 155.62 94.23 151.50 98.07 145.12 100.18 140.75 102.31 134.12 103.08 128.75 103.21 122.25 102.82 118.00 102.17 114.50 99.75 107.50 98.13 104.00 95.85 100.25 93.57 97.12 90.07 93.14 84.62 88.38 81.12 85.71 76.50 82.58 68.38 78.41 63.12 76.68 61.25 76.28 57.00 76.01ZM55.50 82.97 57.00 82.65 60.00 82.42 63.88 82.70 65.75 83.08 71.75 85.43 75.62 87.73 78.75 89.86 81.00 91.59 82.85 93.38 87.60 98.50 90.30 101.88 93.02 106.12 96.35 113.25 98.20 120.88 98.62 125.38 98.46 129.50 98.16 132.12 96.68 137.88 93.87 144.25 91.95 147.50 89.28 151.38 86.90 154.37 85.00 156.31 82.38 158.30 80.38 159.28 78.00 159.75 75.75 159.86 70.25 159.44 65.75 158.86 63.50 158.31 58.38 156.66 53.38 154.44 50.75 152.73 48.38 150.89 44.48 146.75 41.56 142.38 39.47 137.50 37.60 129.12 37.39 126.62 37.38 121.50 37.63 117.38 39.01 108.25 39.52 105.88 41.07 100.88 43.20 95.88 46.66 90.00 48.38 88.01 51.38 85.35 53.50 83.92Z"/><path fill="url(#fGoldHi)" fill-rule="evenodd" d="M92.78 98.12 92.04 96.88 89.74 94.00 85.75 89.81 80.62 85.43 75.38 81.93 68.62 78.51 62.50 76.52 60.25 76.17 57.25 76.00 55.12 76.15 53.50 76.55 51.38 77.56 49.75 78.62 48.01 80.14 46.03 82.25 43.73 85.25 40.01 91.88 36.29 101.50 35.57 105.00 34.51 108.88 34.13 111.12 33.78 118.75 33.98 120.10 34.33 120.72 34.88 121.03 35.43 120.87 35.80 120.33 36.63 114.62 38.89 105.38 40.82 99.75 42.80 95.38 44.10 93.00 46.22 89.75 49.00 86.67 51.88 84.40 55.00 82.81 58.25 82.13 61.38 82.10 65.38 82.75 69.88 84.38 72.50 85.54 75.50 87.14 78.38 88.89 81.25 90.95 85.87 94.90 91.14 100.40 91.90 100.61 92.49 100.17 92.90 99.12Z"/><path fill="url(#fRing)" fill-rule="evenodd" d="M74.62 108.23 70.75 107.39 67.12 107.32 63.50 107.96 60.00 109.32 56.63 111.52 53.61 114.38 51.17 117.62 49.26 121.38 47.85 126.25 47.24 130.25 47.42 134.00 48.29 137.62 49.88 141.12 52.13 144.07 55.13 146.64 58.50 148.47 62.12 149.45 63.75 149.57 65.38 149.43 67.75 148.74 71.62 146.80 73.25 146.19 79.12 145.44 81.75 144.71 84.25 143.35 86.69 141.23 88.92 138.50 90.48 135.62 91.09 133.75 91.45 131.75 91.58 129.88 91.45 127.88 91.04 125.50 90.38 123.12 89.55 121.00 88.46 118.88 86.01 115.51 82.62 112.36 78.62 109.82ZM77.50 115.17 80.25 117.09 82.72 119.51 84.77 122.25 86.11 125.00 86.85 127.88 86.91 130.75 86.31 133.37 85.12 135.61 83.92 136.97 82.62 137.98 81.12 138.69 79.62 139.06 77.25 138.97 72.88 137.30 72.01 137.18 71.18 137.33 69.93 138.25 67.87 141.11 66.58 142.49 65.25 143.46 63.75 144.07 62.25 144.27 60.63 144.10 59.13 143.61 57.65 142.76 55.77 140.97 54.26 138.50 53.26 135.50 52.84 132.12 53.06 128.75 53.83 125.50 55.19 122.12 56.99 119.13 58.94 116.82 61.13 114.99 63.50 113.64 65.88 112.90 68.62 112.67 71.75 112.99 74.62 113.82Z"/><path fill="#0d2740" fill-rule="evenodd" d="M77.75 115.90 75.00 114.50 72.00 113.55 69.12 113.18 66.38 113.32 64.00 113.97 61.75 115.14 59.55 116.87 57.63 119.01 55.82 121.88 54.48 125.00 53.62 128.38 53.33 131.62 53.65 134.88 54.50 137.75 55.89 140.22 57.67 142.04 59.01 142.87 60.50 143.41 62.00 143.60 63.50 143.43 64.99 142.84 66.29 141.92 67.46 140.71 69.55 138.01 71.05 136.93 71.89 136.74 72.75 136.80 76.88 138.24 78.12 138.45 79.37 138.43 80.75 138.12 82.11 137.50 83.40 136.54 84.41 135.45 85.65 133.25 86.28 130.75 86.27 128.12 85.64 125.38 84.46 122.75 82.63 120.14 80.36 117.82Z"/></svg>
         </div>
       </div>
 
     </main>
-
-    <!-- Wind gusts and floating golden dust -->
-    <canvas id="fx" aria-hidden="true"></canvas>
   </div>
 
   <!-- GSAP and MotionPathPlugin via CDN -->
@@ -204,20 +259,21 @@
   (function () {
     'use strict';
 
-    /* ---------- constants (all from measurements on the reference image) ---------- */
-    var STAGE_W = 2752;
-    var STAGE_H = 1536;
+    /* ---------- constants (measured from the reference image) ---------- */
     var CAP_H = 122;          // cap height of the title, px
     var LINE2_W = 1206;       // width of RADHEKRISHN, px
     var LINE_GAP = 183;       // baseline to baseline, px
     var BASELINE_1 = 666;     // baseline of JAI SHREE, px
-    var FINAL_ROT = -14;      // feather resting tilt, degrees
-    var COVER_PAD = 1.05;     // starting scale margin so the feather covers the screen
+
+    /* ---------- the morpankh: one spin on the way in, then it rests on the crown ---------- */
+    var FLIGHT = 3.2;                                              // seconds for the spin and the landing
+    var FINAL_ROT = -12;                                           // resting tilt on the crown, degrees
+    var START = { x: -560, y: 170, scale: 3.4, rotationZ: -50 };   // start, as offsets from the crown (px)
+    var APEX = { x: -230, y: -90 };                                // top of the arc, as offsets from the crown (px)
 
     var root = document.documentElement;
     var $ = function (sel) { return document.querySelector(sel); };
 
-    var stage = $('#stage');
     var nav = $('#nav');
     var title = $('#title');
     var titleShine = $('#titleShine');
@@ -225,23 +281,19 @@
     var underglow = $('#underglow');
     var introCover = $('#introCover');
     var pills = $('#pills');
-    var scene = $('#scene');
-    var art = $('#art');
+    var artStage = $('#artStage');
+    var figureGlow = $('#figureGlow');
     var feather = $('#feather');
-    var featherSvg = $('#featherSvg');
     var featherGlow = $('#featherGlow');
-    var displacement = $('#displacement');
     var replayBtn = $('#replayBtn');
     var audioBtn = $('#audioBtn');
-    var canvas = $('#fx');
 
     var hasGSAP = typeof window.gsap !== 'undefined';
     var reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-    if (hasGSAP && typeof window.MotionPathPlugin !== 'undefined') gsap.registerPlugin(MotionPathPlugin);
 
     /* ---------- stage fit: cover the screen, keep the reference layout ---------- */
     function fitStage() {
-      var k = Math.max(window.innerWidth / STAGE_W, window.innerHeight / STAGE_H);
+      var k = Math.max(window.innerWidth / 2752, window.innerHeight / 1536);
       root.style.setProperty('--k', k.toFixed(5));
     }
 
@@ -256,7 +308,7 @@
 
       c.font = '500 ' + fs + 'px ' + fam;
       var natural = c.measureText('RADHEKRISHN').width;
-      var sx = LINE2_W / natural;            // stretch or squeeze to the measured width
+      var sx = LINE2_W / natural;
 
       var m = c.measureText('H');
       var asc = m.fontBoundingBoxAscent || fs * 0.9;
@@ -270,225 +322,7 @@
       root.style.setProperty('--t-top', top.toFixed(2) + 'px');
     }
 
-    /* ---------- the peacock feather (SVG) ---------- */
-    function mulberry32(seed) {
-      return function () {
-        seed |= 0;
-        seed = (seed + 0x6d2b79f5) | 0;
-        var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-      };
-    }
-
-    // point at fraction t along a polyline
-    function along(pts, t) {
-      var n = pts.length - 1;
-      var f = Math.min(0.99999, Math.max(0, t)) * n;
-      var i = Math.floor(f);
-      var u = f - i;
-      var a = pts[i], b = pts[i + 1];
-      return [a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u];
-    }
-
-    function buildFeather(svg) {
-      var NS = 'http://www.w3.org/2000/svg';
-      function el(tag, attrs, parent) {
-        var n = document.createElementNS(NS, tag);
-        for (var k in attrs) n.setAttribute(k, attrs[k]);
-        if (parent) parent.appendChild(n);
-        return n;
-      }
-      var rnd = mulberry32(20251025);
-      var defs = el('defs', {}, svg);
-
-      function lin(id, stops, x1, y1, x2, y2) {
-        var g = el('linearGradient', { id: id, x1: x1, y1: y1, x2: x2, y2: y2 }, defs);
-        stops.forEach(function (s) {
-          el('stop', { offset: s[0], 'stop-color': s[1], 'stop-opacity': s[2] === undefined ? 1 : s[2] }, g);
-        });
-      }
-      function rad(id, stops, cx, cy, r) {
-        var g = el('radialGradient', { id: id, cx: cx, cy: cy, r: r }, defs);
-        stops.forEach(function (s) {
-          el('stop', { offset: s[0], 'stop-color': s[1], 'stop-opacity': s[2] === undefined ? 1 : s[2] }, g);
-        });
-      }
-
-      lin('fGold', [[0, '#fff3c2'], [0.45, '#e6b95a'], [1, '#86551c']], 0, 0, 1, 1);
-      lin('fShaft', [[0, '#6f4a18'], [0.5, '#f2d58a'], [1, '#9b6e2a']], 0, 1, 0, 0);
-      lin('fCyan', [[0, '#8ffcf1'], [0.55, '#17e0d2'], [1, '#0b8a93']], 0, 0, 0, 1);
-      lin('fGoldStrand', [[0, '#f7e29a'], [1, '#a57531']], 0, 0, 0, 1);
-      lin('fRing', [[0, '#a9fff4'], [0.5, '#19e6d6'], [1, '#0a9db0']], 0, 0, 1, 1);
-      rad('fInner', [[0, '#8fe6d6', 0.95], [0.6, '#3c8f84', 0.9], [1, '#1c4f50', 0.95]], '50%', '45%', '60%');
-      rad('fHalo', [[0, '#5ff5e0', 0.55], [1, '#5ff5e0', 0]], '50%', '50%', '50%');
-
-      // barb outlines: the feather's teardrop, from the tip (top) round both sides to the shaft
-      var outerL = [[24, -2], [18, 26], [14, 64], [13, 104], [17, 140], [30, 172], [56, 196], [80, 207]];
-      var outerR = [[24, -2], [40, 10], [66, 32], [96, 66], [108, 104], [110, 144], [100, 178], [90, 205]];
-
-      var strands = el('g', { fill: 'none', 'stroke-linecap': 'round' }, svg);
-
-      function strand(base, tip, side, bow, stroke, width, opacity) {
-        var mx = (base[0] + tip[0]) / 2 + side * bow;
-        var my = (base[1] + tip[1]) / 2 - bow * 0.25;
-        el('path', {
-          d: 'M' + base[0].toFixed(2) + ' ' + base[1].toFixed(2) +
-             ' Q' + mx.toFixed(2) + ' ' + my.toFixed(2) +
-             ' ' + tip[0].toFixed(2) + ' ' + tip[1].toFixed(2),
-          stroke: stroke,
-          'stroke-width': width.toFixed(2),
-          opacity: opacity.toFixed(2)
-        }, strands);
-      }
-
-      // main barbs, plus a finer second layer for depth
-      [[outerL, -1], [outerR, 1]].forEach(function (pair) {
-        var pts = pair[0], side = pair[1];
-        var N = 18;
-        for (var i = 0; i < N; i++) {
-          var t = 0.04 + 0.92 * (i / (N - 1));
-          var tip = along(pts, t);
-          tip = [tip[0] + (rnd() - 0.5) * 3, tip[1] + (rnd() - 0.5) * 3];
-          var s = rnd();
-          var base = [68 + 18 * s, 168 + 38 * s];
-          var len = Math.hypot(tip[0] - base[0], tip[1] - base[1]);
-          var bow = len * (0.16 + rnd() * 0.1);
-          var gold = side === 1 && i > N - 4;
-          strand(base, tip, side, bow, gold ? 'url(#fGoldStrand)' : 'url(#fCyan)',
-                 1.0 + rnd() * 0.6, 0.85 + rnd() * 0.15);
-        }
-        for (var j = 0; j < 12; j++) {
-          var t2 = 0.08 + 0.84 * rnd();
-          var tip2 = along(pts, t2);
-          var base2 = [68 + 18 * rnd(), 172 + 34 * rnd()];
-          var len2 = Math.hypot(tip2[0] - base2[0], tip2[1] - base2[1]);
-          strand(base2, tip2, side, len2 * 0.18, 'url(#fCyan)', 0.6 + rnd() * 0.3, 0.3 + rnd() * 0.2);
-        }
-      });
-
-      // eye: teal halo, gold egg, teal-grey inner, cyan ring, dark heart centre
-      el('ellipse', { cx: 66.5, cy: 120, rx: 58, ry: 72, fill: 'url(#fHalo)' }, svg);
-      el('path', {
-        d: 'M66.5 73.5 C 92 73.5 103 100 103 122 C 103 150 88 168 66.5 168 C 45 168 30 150 30 122 C 30 100 41 73.5 66.5 73.5 Z',
-        fill: 'url(#fGold)', stroke: '#fff0b0', 'stroke-width': 0.8, 'stroke-opacity': 0.7
-      }, svg);
-      el('path', {
-        d: 'M66.5 86 C 83 86 91 107 91 122 C 91 141 80 156 66.5 156 C 53 156 42 141 42 122 C 42 107 50 86 66.5 86 Z',
-        fill: 'url(#fInner)'
-      }, svg);
-      el('ellipse', { cx: 66.5, cy: 122, rx: 21, ry: 24, fill: 'none', stroke: 'url(#fRing)', 'stroke-width': 4.2 }, svg);
-      el('ellipse', { cx: 66.5, cy: 122, rx: 21, ry: 24, fill: 'none', stroke: '#b8fff7', 'stroke-width': 0.8, opacity: 0.6 }, svg);
-      el('path', {
-        d: 'M66.5 134 C 60 128.5 54 124 54 117.5 C 54 112.5 58 109.5 62 109.5 C 64.5 109.5 66 111 66.5 113 C 67 111 68.5 109.5 71 109.5 C 75 109.5 79 112.5 79 117.5 C 79 124 73 128.5 66.5 134 Z',
-        fill: '#0a1b3a'
-      }, svg);
-      el('ellipse', { cx: 58, cy: 104, rx: 4.5, ry: 2.2, fill: '#ffffff', opacity: 0.45, transform: 'rotate(-18 58 104)' }, svg);
-
-      // golden shaft from the eye down to the crown
-      el('path', { d: 'M66 166 C 72 188 80 200 92 213', fill: 'none', stroke: 'url(#fShaft)', 'stroke-width': 2.6, 'stroke-linecap': 'round' }, svg);
-      el('path', { d: 'M66 166 C 72 188 80 200 92 213', fill: 'none', stroke: '#fff6d0', 'stroke-width': 0.6, opacity: 0.6 }, svg);
-    }
-
-    /* ---------- wind and dust canvas ---------- */
-    var ctx = canvas.getContext('2d');
-    var DPR = 1, VW = 0, VH = 0;
-    var dust = [];
-    var gusts = [];
-    var windPower = 0;
-    var spawnAcc = 0;
-    var lastT = 0;
-
-    function makeDust(anywhere) {
-      return {
-        x: Math.random() * VW,
-        y: anywhere ? Math.random() * VH : VH + 10,
-        r: 0.6 + Math.random() * 1.8,
-        vx: 4 + Math.random() * 10,
-        vy: -(4 + Math.random() * 10),
-        a: 0.25 + Math.random() * 0.6,
-        ph: Math.random() * Math.PI * 2
-      };
-    }
-
-    function spawnGust() {
-      gusts.push({
-        x: -120 - Math.random() * 200,
-        y: Math.random() * VH,
-        amp: 10 + Math.random() * 40,
-        f: 0.004 + Math.random() * 0.006,
-        ph: Math.random() * Math.PI * 2,
-        v: 900 + Math.random() * 700,
-        len: 80 + Math.random() * 180,
-        w: 0.8 + Math.random() * 1.6,
-        a: 0.35 + Math.random() * 0.5
-      });
-    }
-
-    function resizeCanvas() {
-      DPR = Math.min(window.devicePixelRatio || 1, 2);
-      VW = window.innerWidth;
-      VH = window.innerHeight;
-      canvas.width = Math.round(VW * DPR);
-      canvas.height = Math.round(VH * DPR);
-      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-      var count = Math.min(120, Math.round((VW * VH) / 14000));
-      dust = [];
-      for (var i = 0; i < count; i++) dust.push(makeDust(true));
-    }
-
-    function frame(now) {
-      var dt = Math.min(0.05, lastT ? (now - lastT) / 1000 : 0.016);
-      lastT = now;
-      var wp = windPower;
-      ctx.clearRect(0, 0, VW, VH);
-
-      // gust streaks, sweeping left to right
-      if (wp > 0.06) {
-        spawnAcc += wp * 180 * dt;
-        while (spawnAcc >= 1) { spawnAcc -= 1; spawnGust(); }
-      } else {
-        spawnAcc = 0;
-      }
-      ctx.lineCap = 'round';
-      for (var i = gusts.length - 1; i >= 0; i--) {
-        var g = gusts[i];
-        g.x += g.v * dt * (0.6 + wp * 0.8);
-        var y = g.y + Math.sin(g.x * g.f + g.ph) * g.amp;
-        ctx.globalAlpha = g.a * Math.min(1, wp * 1.5);
-        ctx.strokeStyle = '#ffd98a';
-        ctx.lineWidth = g.w;
-        ctx.beginPath();
-        ctx.moveTo(g.x - g.len, y + 2);
-        ctx.lineTo(g.x, y);
-        ctx.stroke();
-        if (g.x - g.len > VW + 80) gusts.splice(i, 1);
-      }
-
-      // floating golden dust
-      for (var j = 0; j < dust.length; j++) {
-        var d = dust[j];
-        d.x += d.vx * dt * (1 + wp * 4);
-        d.y += d.vy * dt;
-        d.ph += dt * 1.6;
-        if (d.y < -10) { d.y = VH + 10; d.x = Math.random() * VW; }
-        if (d.x > VW + 10) d.x = -10;
-        ctx.globalAlpha = d.a * (0.55 + 0.45 * Math.sin(d.ph));
-        ctx.fillStyle = '#ffdc8f';
-        ctx.beginPath();
-        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.globalAlpha = 1;
-      requestAnimationFrame(frame);
-    }
-
-    function setWind(p) {
-      windPower = p;
-      if (displacement) displacement.setAttribute('scale', (0.45 + p * 0.9).toFixed(3));
-    }
-
-    /* ---------- sound (created on the first click) ---------- */
+    /* ---------- sound (created on the first click; browsers block audio before that) ---------- */
     var audioCtx = null;
     var soundOn = true;
 
@@ -534,124 +368,53 @@
       audioBtn.setAttribute('aria-label', soundOn ? 'Mute sound' : 'Unmute sound');
     }
 
-    /* ---------- reverse anchor: where the feather rests, in stage pixels ---------- */
-    // offsetLeft / offsetTop ignore CSS transforms, so these are the true layout positions
-    function restCentre() {
-      return {
-        x: scene.offsetLeft + feather.offsetLeft + feather.offsetWidth / 2,
-        y: scene.offsetTop + feather.offsetTop + feather.offsetHeight / 2,
-        w: feather.offsetWidth,
-        h: feather.offsetHeight
-      };
-    }
-
     /* ---------- the sequence ---------- */
     var tl = null;
-    var idle = null;
-
-    function startIdle() {
-      idle = gsap.timeline({ repeat: -1, yoyo: true, defaults: { ease: 'sine.inOut' } });
-      idle
-        .to(feather, { rotationZ: FINAL_ROT + 2.5, y: -4, rotationY: 4, rotationX: -3, duration: 2.8 }, 0)
-        .to(featherGlow, { opacity: 0.8, scale: 1.06, duration: 2.8 }, 0);
-    }
 
     function play() {
       if (tl) tl.kill();
-      if (idle) idle.kill();
       feather.classList.remove('landed');
 
-      var r = restCentre();
-      // move the feather's centre to the centre of the stage (the screen centre)
-      var dx = STAGE_W / 2 - r.x;
-      var dy = STAGE_H / 2 - r.y;
-      // scale so the barbs cover the whole stage
-      var cover = Math.max(STAGE_W / (0.8 * r.w), STAGE_H / (0.86 * r.h)) * COVER_PAD;
-
-      // cubic Bézier S-curve: from the centre, back into the scene, ending at the crown
-      var P0 = { x: dx, y: dy };
-      var P1 = { x: dx * 0.55 + 360, y: dy * 0.62 + 40 };
-      var P2 = { x: dx * 0.1 - 320, y: dy * 0.24 - 60 };
-      var P3 = { x: -14, y: -22 };
-      function bez(t) {
-        var u = 1 - t;
-        var a = u * u * u, b = 3 * u * u * t, c = 3 * u * t * t, d = t * t * t;
-        return {
-          x: a * P0.x + b * P1.x + c * P2.x + d * P3.x,
-          y: a * P0.y + b * P1.y + c * P2.y + d * P3.y
-        };
-      }
-
-      // 0.0s: the feather covers the whole stage, slightly angled, the rest hidden
-      gsap.set(feather, {
-        x: dx, y: dy, scale: cover,
-        rotationZ: -6, rotationX: 0, rotationY: 0,
-        transformOrigin: '50% 50%', opacity: 1
-      });
-      gsap.set(introCover, { opacity: 1 });
-      gsap.set([nav, pills, art], { opacity: 0 });
-      gsap.set(title, { opacity: 0 });
+      // 0 s: everything starts hidden, the morpankh starts off-screen to the left
+      gsap.set(introCover, { opacity: 0 });
+      gsap.set([nav, pills], { opacity: 0 });
+      gsap.set(artStage, { opacity: 0, scale: 1.04 });
+      gsap.set(figureGlow, { opacity: 0 });
+      gsap.set(title, { opacity: 0, y: 24 });
       gsap.set(titleShine, { opacity: 0 });
       gsap.set(underglow, { opacity: 0 });
       gsap.set(featherGlow, { opacity: 0 });
-      setWind(0.02);
-
-      var wind = { p: 0.02 };
-      var path = { t: 0 };
+      gsap.set(feather, {
+        x: START.x, y: START.y, scale: START.scale, rotationZ: START.rotationZ,
+        rotationX: 0, rotationY: 0, opacity: 1, transformOrigin: '50% 50%'
+      });
 
       tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+      tl.call(whoosh, null, 0);
 
-      // 0.5s – 3.2s: the wind gust carries the feather back
-      tl.call(whoosh, null, 0.5)
-        .to(wind, { p: 1, duration: 0.6, ease: 'power2.out', onUpdate: function () { setWind(wind.p); } }, 0.5)
-        .to(wind, { p: 0.28, duration: 1.7, ease: 'power1.inOut', onUpdate: function () { setWind(wind.p); } }, 1.1)
-        .to(wind, { p: 0, duration: 1.0, ease: 'power1.in', onUpdate: function () { setWind(wind.p); } }, 2.8);
+      // the flight: one spin, a rise over the top, then the landing on the crown
+      tl.to(feather, { x: APEX.x, y: APEX.y, duration: FLIGHT * 0.55, ease: 'sine.out' }, 0)
+        .to(feather, { x: 0, y: 0, duration: FLIGHT * 0.45, ease: 'sine.inOut' }, FLIGHT * 0.55)
+        .to(feather, { scale: 1, rotationZ: FINAL_ROT, duration: FLIGHT, ease: 'power2.out' }, 0)
+        .to(feather, { rotationY: 360, duration: FLIGHT, ease: 'power1.inOut' }, 0)
+        .set(feather, { rotationY: 0 }, FLIGHT)                       // a full turn looks the same as none
+        .to(feather, { scale: 1.03, duration: 0.2, ease: 'sine.out' }, FLIGHT)
+        .to(feather, { scale: 1, duration: 0.35, ease: 'sine.inOut' }, FLIGHT + 0.2);
 
-      tl.to(path, {
-        t: 1,
-        duration: 2.7,
-        ease: 'sine.inOut',
-        onUpdate: function () {
-          var p = bez(path.t);
-          var fl = 1 - path.t;   // flutter fades out as the feather reaches the crown
-          gsap.set(feather, {
-            x: p.x + Math.sin(path.t * Math.PI * 4) * 16 * fl,
-            y: p.y + Math.cos(path.t * Math.PI * 3) * 9 * fl
-          });
-        }
-      }, 0.5);
+      // the reveal of the title, the artwork, the glow and the navbar
+      tl.fromTo(title, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 2.4, ease: 'power2.out' }, 2.6)
+        .fromTo(titleShine, { opacity: 1 }, { opacity: 0, duration: 2.6, ease: 'power1.inOut' }, 2.6)
+        .fromTo(shineLines, { backgroundPosition: '100% 50%' }, { backgroundPosition: '0% 50%', duration: 2.6, ease: 'power2.inOut' }, 2.6)
+        .fromTo(artStage, { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1, duration: 2.4, ease: 'power2.out' }, 3.0)
+        .fromTo(nav, { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 1.6, ease: 'power2.out' }, 3.6)
+        .fromTo(underglow, { opacity: 0, scaleX: 0.4 }, { opacity: 1, scaleX: 1, duration: 2.0, ease: 'sine.out' }, 3.6)
+        .fromTo(pills, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 1.6, ease: 'power2.out' }, 3.9)
+        .fromTo(figureGlow, { opacity: 0 }, { opacity: 1, duration: 2.4, ease: 'sine.out' }, 4.2)
+        .call(function () { root.classList.remove('js-intro'); }, null, 4.4);
 
-      tl.to(feather, { scale: 3.4, duration: 2.7, ease: 'power2.in' }, 0.5)
-        .to(feather, { rotationY: 34, rotationX: -22, rotationZ: 10, duration: 0.9, ease: 'sine.inOut' }, 0.5)
-        .to(feather, { rotationY: -26, rotationX: 18, rotationZ: -8, duration: 0.9, ease: 'sine.inOut' }, 1.4)
-        .to(feather, { rotationY: 12, rotationX: -8, rotationZ: -12, duration: 0.8, ease: 'sine.inOut' }, 2.3);
-
-      // 1.5s – 3.0s: the feather uncovers the scene and the text and artwork appear
-      tl.to(introCover, { opacity: 0, duration: 1.4, ease: 'power1.inOut' }, 1.6)
-        .fromTo(title,
-          { opacity: 0, filter: 'blur(18px)', y: 18 },
-          { opacity: 1, filter: 'blur(0px)', y: 0, duration: 1.4, ease: 'power2.out' }, 1.5)
-        .fromTo(titleShine, { opacity: 1 }, { opacity: 0, duration: 1.6, ease: 'power1.inOut' }, 1.5)
-        .fromTo(shineLines,
-          { backgroundPosition: '100% 50%' },
-          { backgroundPosition: '0% 50%', duration: 1.6, ease: 'power2.inOut' }, 1.5)
-        .fromTo(art,
-          { opacity: 0, filter: 'blur(14px)' },
-          { opacity: 1, filter: 'blur(0px)', duration: 1.4, ease: 'power2.out' }, 1.9)
-        .fromTo(nav, { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out' }, 2.2)
-        .fromTo(underglow, { opacity: 0, scaleX: 0.4 }, { opacity: 1, scaleX: 1, duration: 1.2, ease: 'sine.out' }, 2.2)
-        .fromTo(pills, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out' }, 2.5)
-        .call(function () { root.classList.remove('js-intro'); }, null, 3.2);
-
-      // 3.2s – 4.0s: the feather lands exactly on Krishna's crown (x: 0, y: 0, scale: 1)
-      tl.to(feather, {
-        x: 0, y: 0, scale: 1,
-        rotationZ: FINAL_ROT, rotationX: 0, rotationY: 0,
-        duration: 0.8, ease: 'power3.inOut'
-      }, 3.2)
-        .to(featherGlow, { opacity: 1, duration: 0.9, ease: 'sine.out' }, 3.5)
-        .call(function () { feather.classList.add('landed'); }, null, 3.85)
-        .call(startIdle, null, 4.0);
+      // landed: the feather stays still on the crown; only its glow goes on and off
+      tl.to(featherGlow, { opacity: 1, duration: 1.0, ease: 'sine.out' }, FLIGHT - 0.2)
+        .call(function () { feather.classList.add('landed'); }, null, FLIGHT + 0.55);
     }
 
     // used when GSAP is missing or the visitor prefers reduced motion: show the finished page
@@ -659,7 +422,7 @@
       root.classList.remove('js-intro');
       feather.classList.add('landed');
       featherGlow.style.opacity = '0.8';
-      setWind(0);
+      if (reduceMotion) figureGlow.classList.add('reduced');
     }
 
     function replay() {
@@ -671,14 +434,7 @@
     /* ---------- start ---------- */
     function init() {
       fitStage();
-      buildFeather(featherSvg);
-      resizeCanvas();
-      requestAnimationFrame(frame);
-
-      window.addEventListener('resize', function () {
-        fitStage();
-        resizeCanvas();
-      });
+      window.addEventListener('resize', fitStage);
 
       audioBtn.addEventListener('click', toggleSound);
       replayBtn.addEventListener('click', replay);
@@ -703,5 +459,5 @@
     init();
   })();
   </script>
-</body>
+  </body>
 </html>
