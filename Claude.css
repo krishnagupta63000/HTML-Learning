@@ -273,8 +273,6 @@ a {
     radial-gradient(ellipse 60% 70% at 50% 100%, rgba(226, 180, 90, 0.2), transparent 75%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.01)),
     rgba(12, 30, 62, 0.55);
-  -webkit-backdrop-filter: blur(10px) saturate(120%);
-  backdrop-filter: blur(10px) saturate(120%);
   box-shadow:
     0 0 22px rgba(230, 190, 110, 0.22),
     inset 0 0 18px rgba(230, 190, 110, 0.12);
@@ -335,8 +333,8 @@ a {
    on the crown at any screen size. */
 .feather {
   position: absolute;
-  left: 41.07%;
-  top: 2.76%;
+  left: 39.45%;
+  top: 3.62%;
   width: 11.82%;
   height: 18.36%;
   transform-style: preserve-3d;
@@ -368,24 +366,17 @@ a {
   width: 100%;
   height: 100%;
   overflow: visible;
-  filter:
-    url(#wind-ripple)
-    drop-shadow(0 0 6px rgba(60, 255, 230, 0.55));
+  /* no shadow while the feather is huge: a drop-shadow on a scaled element is very expensive to repaint */
 }
 
-.feather.landed svg {
-  filter:
-    url(#wind-ripple)
-    drop-shadow(0 0 5px rgba(70, 255, 226, 0.65))
-    drop-shadow(0 0 12px rgba(30, 215, 190, 0.35));
-}
+/* landed: the morpankh glows on and off (see the living-screen block at the end) */
 
 /* ---------- starting state (the script reveals these) ---------- */
 .js-intro .nav,
 .js-intro .title,
 .js-intro .underglow,
 .js-intro .pills,
-.js-intro .art {
+.js-intro .art-stage {
   opacity: 0;
 }
 
@@ -393,13 +384,136 @@ a {
   opacity: 0;
 }
 
-/* ---------- wind and dust canvas (viewport level) ---------- */
-#fx {
-  position: fixed;
+
+/* ==========================================================================
+   LIVING SCREEN
+   ========================================================================== */
+
+/* the artwork and the glow over it move together */
+.art-stage {
+  position: absolute;
+  inset: 0;
+}
+
+/* glow that runs along the lines: gold on Radha, blue on Krishna */
+.figure-glow {
+  position: absolute;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
+  overflow: visible;
   pointer-events: none;
-  z-index: 50;
+}
+
+/* soft breathing light behind the two figures */
+.aura {
+  position: absolute;
+  left: 1640px;
+  top: 300px;
+  width: 1060px;
+  height: 1060px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 206, 128, 0.2),
+    rgba(92, 150, 255, 0.1) 55%,
+    transparent 100%
+  );
+  animation: auraBreathe 7s ease-in-out infinite;
+}
+
+/* warm pulse behind the lotus */
+.lotus-halo {
+  position: absolute;
+  left: 1860px;
+  top: 1065px;
+  width: 440px;
+  height: 360px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 96, 150, 0.3),
+    rgba(255, 150, 110, 0.1) 60%,
+    transparent 100%
+  );
+  animation: lotusBreathe 4.2s ease-in-out infinite;
+}
+
+/* sparkles twinkle */
+.sparkles path {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: sparkle 3.8s ease-in-out infinite;
+}
+.sparkles path:nth-child(2n) { animation-delay: -1.9s; }
+.sparkles path:nth-child(3n) { animation-delay: -0.9s; animation-duration: 5.2s; }
+
+/* golden dust drifts up and fades */
+.motes .mote {
+  opacity: 0;
+  animation: mote var(--t, 11s) linear var(--d, 0s) infinite;
+}
+
+/* the morpankh glows on and off once it has landed */
+.feather.landed svg {
+  animation: morpankhGlow 3.2s ease-in-out infinite;
+}
+.feather.landed .feather-glow {
+  animation: morpankhHalo 3.2s ease-in-out infinite;
+}
+
+@keyframes auraBreathe {
+  0%, 100% { opacity: 0.55; transform: scale(0.97); }
+  50% { opacity: 1; transform: scale(1.03); }
+}
+
+@keyframes lotusBreathe {
+  0%, 100% { opacity: 0.6; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0.35; transform: scale(0.75); }
+  50% { opacity: 1; transform: scale(1.18); }
+}
+
+@keyframes mote {
+  0% { opacity: 0; transform: translate(0, 0); }
+  12% { opacity: 0.85; }
+  80% { opacity: 0.5; }
+  100% { opacity: 0; transform: translate(var(--dx, 14px), -230px); }
+}
+
+@keyframes morpankhGlow {
+  0%, 100% {
+    filter:
+      drop-shadow(0 0 0 rgba(70, 255, 226, 0))
+      drop-shadow(0 0 0 rgba(30, 215, 190, 0));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 6px rgba(70, 255, 226, 0.95))
+      drop-shadow(0 0 16px rgba(30, 215, 190, 0.6));
+  }
+}
+
+@keyframes morpankhHalo {
+  0%, 100% { opacity: 0.08; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aura,
+  .lotus-halo,
+  .sparkles path,
+  .motes .mote,
+  .feather.landed svg,
+  .feather.landed .feather-glow {
+    animation: none;
+  }
+  .motes .mote { display: none; }
+  .figure-glow.reduced .band { display: none; }
 }
